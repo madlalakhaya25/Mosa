@@ -47,12 +47,10 @@ def create_new_user_in_database(user_id):
 # Register the blueprint from abc.py
 app.register_blueprint(uploadAudioRoute, url_prefix='/uploadAudioRoute_prefix')
 
-# Assuming you have configured the client ID and client secret
-GOOGLE_CLIENT_ID = "861494855630-j6btrl2fvbu37a8o71cenvme3mm3ta8u.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET = "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"
-GOOGLE_DISCOVERY_URL = (
-    "https://accounts.google.com/.well-known/openid-configuration"
-)
+# Access Google OAuth Configuration variables
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
+GOOGLE_DISCOVERY_URL = os.getenv('GOOGLE_DISCOVERY_URL')
 
 # Flask-Mail configuration for Gmail
 # Setting up Flask-Mail to use Gmail SMTP server for sending emails.
@@ -65,7 +63,7 @@ mail = Mail(app)
 
 
 # Secret key for session management
-app.secret_key = 'dhdjkdlshfsdvfsja;ajlauya'
+app.secret_key = os.getenv('SECRET_KEY')
 
 # Setting session lifetime to 30 days
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
@@ -73,7 +71,7 @@ app.permanent_session_lifetime = timedelta(days=30)
 
 # Configure MongoDB connection
 # Connecting to MongoDB database named 'posts'
-app.config['MONGO_URI'] = 'mongodb+srv://monamodi68:FVTjynigAKmcKhsH@cluster0.kydsxea.mongodb.net/posts?retryWrites=true&w=majority'
+app.config['MONGO_URI'] = os.getenv('MONGO_URI')
 mongo = PyMongo(app)
 
 @app.route('/validate_token', methods=['POST'])
@@ -200,7 +198,7 @@ scheduler.start()
 def generate_tokens():
     global global_id_token
     # Get REFRESH_TOKEN from request data
-    refresh_token = 'eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.LbCWWrJ_5wfE7U9BKgQx8sX0ldFk9k8DW7q-Ui_6yaQicPg77v6sC56_zUrRUkYMUkncOXEQ2QPqJs60X4T7hNCc8qbCiBcsMp_n7UROYU0bIzzhY1LRJkR4BzeiiluJBDHWOX42sbSXJcPoakMLSCVlXki6Hp9X29DbcfsMGMpOKfDVCp4gaGq-C47Cuv2_nLxMEHAnYB17M0xxWdp4586xtDBqZV4dgEBO-qC6iktvfwgQojs9BVV3IxF8JKRcf-n0hAM9bpc-RFUJoKfdysGpIKzxv_kZmPfeHpDkUJ51dtmgVOLWgf5FXRFfbPtgLm2LnkZPiChDSSUahIgYuA.nUYHj8xquOV8Fsr8.RlUXt72jB5ubf2sC2iF75-fUywfqnCUfXG8YQ_Qtz9ZUavQmG5x0X6_Hexm2-iUA8HvkBCXx9W5hI3hD2eDbxYjeRfw1cONXmqZg74y78gF4XTalnWkYuJ3n7QTZE9QRgj8Ik9rHnSUPeiWZ9cEgQat2I7TfWhO2Nv8yh4qpClZcpdTnvtzORXYz-BE0dxwboJJd1MJzwb85EhnJbTatitmxQFgz0aZ8uE2Poje9aJe0qUHHUlqH-FvJBb3t_3y2aOIBBAa9UqAbGyXIpz-XnHH_jcgBy2hBgqHW17P7fPWnzcwdxl_AZv0yM5fhKm5oCYkirjv4Tp-l1Xi0u5gyKrMnsmeGIG5bstMLAri25Vpx9sebOzAHU1nKcPmXgt662rvzV3e-oZbOvKtleNVlrVZxvSW38syJLhYm3wqaGZSWaWVoKWifJgrAWggn5wC3B-1LOV4Sdazx5NkBqH7YUrDrpHFFLLsVvp3gNuk8U_dgwU6mHd5ajymj3_d5ySfSq9pi8VCxtv0er_TuyYGliG60TnYN6fFKQjmLgHlyN_pdnJTupl9jlk-5hIvzKQicoWdJEmlsgcAFSS16ThpUod5-iqtDsJDrXOG3727b_sPpa4Klcu_qqow8aHoIlgzxrVLQHvpLEZkqIOGt_EmWmMHUEH3GVT-Jdy_K-NNhybT448EUimOSZiHgeI6eEFXT24Kr06I1s5ufdItVT9kuCp-Yy7_ZuoJhgsmCWXJRrzIVc2HXdZTbD8yNE2sTupUC-IvUVg4sn55SU3FxYDhc4u6REMhKTWPJSbKuq0Z4_wrPpHW5v76ok8gYQ1mZgVNCJKvTKaVOYy5hfqVyy-cMXkg6wBd_tWc-XDs_TOAy41-zhA-6D6o7lpXN5ieUz2jBHIeV7L9z2YcjNARimjanS5U_6MDvtg3IGxMoJIXL1FVUTgm5yYrgzlNcSLulE5QuyK22vglE3jtJia04Ilo6-afpMM0jUwnGAnlTS9T6bRmdECVWD-7KMNh2MkGUsYp2VjGFM-ey1NdI1xnnnKpAW_3KFTvQbtAi1PAIY7_F-FFKA7jXLJ0xMFU1Xy4y_MXJXeV1hXc92gICTV9Q5bsOWA0zhvsF8OclYJl5HWgmlyOvl1bRpyKtFwGplKiEBe0iOmAzjrMZjisJ2ciXUD2l1TFcZqtU5_eS7OEKtcSDbXtWMjS7vobqmoCC1fTc7-ZyASiIKzPYgoPxZGclFoJeNpmYcFs2IgTrFu0-6Nj6BOEvskAX98i22H08ZgQA0nq4RT8ESVjJdgDJCz-ltOaaIGffTOctZp62oAtgXmnDSH1Oi-tglzKTLyWfEQ.3VEu75MdMKfzfaJzKx0QJg'
+    refresh_token = os.getenv('REFRESH_TOKEN')
     # Make request to generate token
     url = "https://dev.botlhale.xyz/generateAuthToken"
     payload={'REFRESH_TOKEN': refresh_token,}
@@ -272,7 +270,7 @@ def get_summary():
         return "Error extracting username from session"
 
     try:
-        MONGODB_URI = "mongodb+srv://monamodi68:FVTjynigAKmcKhsH@cluster0.kydsxea.mongodb.net/posts?retryWrites=true&w=majority"
+        MONGODB_URI = os.getenv('MONGO_URI')
         myclient = pymongo.MongoClient(MONGODB_URI)
 
         mydb = myclient["TranscriptForge"]
@@ -305,67 +303,67 @@ def get_summary():
         print(f"Error accessing MongoDB: {e}")
         return "Error accessing MongoDB"
 
-@app.route('/getdata', methods=['GET'])
-def get_data():
-    if 'username' not in session:
-        abort(401)  # Unauthorized
+# @app.route('/getdata', methods=['GET'])
+# def get_data():
+#     if 'username' not in session:
+#         abort(401)  # Unauthorized
         
-    currently_logged_in_user = session["username"]
+#     currently_logged_in_user = session["username"]
     
-    try:
-        MONGODB_URI="mongodb+srv://monamodi68:FVTjynigAKmcKhsH@cluster0.kydsxea.mongodb.net/posts?retryWrites=true&w=majority"
-        myclient = pymongo.MongoClient(MONGODB_URI)
+#     try:
+#         MONGODB_URI= os.getenv('MONGO_URI')
+#         myclient = pymongo.MongoClient(MONGODB_URI)
 
-        mydb = myclient["TranscriptForge"]
-        # print(myclient.list_database_names())
+#         mydb = myclient["TranscriptForge"]
+#         # print(myclient.list_database_names())
                 
-        mycol = mydb["Meeting_details"]
+#         mycol = mydb["Meeting_details"]
         
-        transcriptList = []
+#         transcriptList = []
 
-        for x in mycol.find({"UserEmail": currently_logged_in_user}):
-            # Replace these variables with your actual values
-            org_id = x['OrgId']
-            presigned_url_data = x['Filename']
-            bearer_token = session.get('id_token')
-            headers = {'Authorization': f'Bearer {bearer_token}'}
+#         for x in mycol.find({"UserEmail": currently_logged_in_user}):
+#             # Replace these variables with your actual values
+#             org_id = x['OrgId']
+#             presigned_url_data = x['Filename']
+#             bearer_token = session.get('id_token')
+#             headers = {'Authorization': f'Bearer {bearer_token}'}
             
-            # Get status using the ASR Async get status GET endpoint
-            status_url = "https://dev.botlhale.xyz/asr/async/status"
-            status_params = {'OrgID': org_id, 'FileName': presigned_url_data['fields']['key']}
-            status_response = requests.get(status_url, params=status_params, headers=headers)
-            if status_response.status_code != 200:
-                return f"Error getting status: {status_response.status_code}"
+#             # Get status using the ASR Async get status GET endpoint
+#             status_url = "https://dev.botlhale.xyz/asr/async/status"
+#             status_params = {'OrgID': org_id, 'FileName': presigned_url_data['fields']['key']}
+#             status_response = requests.get(status_url, params=status_params, headers=headers)
+#             if status_response.status_code != 200:
+#                 return f"Error getting status: {status_response.status_code}"
             
-            status_data = status_response.json()
-            print('status_data', status_data)
+#             status_data = status_response.json()
+#             print('status_data', status_data)
             
-            # Get data using the ASR Async get data GET endpoint
-            data_url = "https://dev.botlhale.xyz/asr/async/data"
-            data_params = {'OrgID': org_id, 'FileName': presigned_url_data['fields']['key']}
-            data_response = requests.get(data_url, params=data_params, headers=headers)
-            if data_response.status_code != 200:
-                return f"Error getting data: {data_response.status_code}"
-            print('-------------------------------------')
-            data = data_response.json()
-            print('filename', data)
+#             # Get data using the ASR Async get data GET endpoint
+#             data_url = "https://dev.botlhale.xyz/asr/async/data"
+#             data_params = {'OrgID': org_id, 'FileName': presigned_url_data['fields']['key']}
+#             data_response = requests.get(data_url, params=data_params, headers=headers)
+#             if data_response.status_code != 200:
+#                 return f"Error getting data: {data_response.status_code}"
+#             print('-------------------------------------')
+#             data = data_response.json()
+#             print('filename', data)
             
-            summary = x['Summary']
-            
-
-            print("Recognition Time:", formatted_time)
-            
-            # Extracting only "speaker" and "transcription" keys from each dictionary
-            new_list = [{"speaker": item["speaker"], "transcription": item["transcription"]} for item in data["timestamps"]]
-            transcriptList.append(new_list)
+#             summary = x['Summary']
             
 
-    except KeyError as e:
-        print(f"Error extracting answer: {e}")
-        return "Error extracting answer"
+#             print("Recognition Time:", formatted_time)
+            
+#             # Extracting only "speaker" and "transcription" keys from each dictionary
+#             new_list = [{"speaker": item["speaker"], "transcription": item["transcription"]} for item in data["timestamps"]]
+#             transcriptList.append(new_list)
+            
+
+#     except KeyError as e:
+#         print(f"Error extracting answer: {e}")
+#         return "Error extracting answer"
     
-    # return render_template('transcript copy.html', transcriptList=transcriptList)
-    return transcriptList
+#     # return render_template('transcript copy.html', transcriptList=transcriptList)
+#     return transcriptList
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -429,8 +427,12 @@ def reset_password():
             reset_link = f"http://localhost:5000/set_new_password/{reset_token}"
             # Store the reset token in the database
             mongo.db.reset_tokens.insert_one({'username': username, 'token': reset_token})
+            # Access Email Subject and Sender
+            EMAIL_SUBJECT = os.getenv('EMAIL_SUBJECT')
+            EMAIL_SENDER = os.getenv('EMAIL_SENDER')
+
             # Send reset password email with reset_token
-            msg = Message('Reset TranscriptForge Password', sender='academicnetwork2@gmail.com', recipients=[username])
+            msg = Message(EMAIL_SUBJECT, sender=EMAIL_SENDER, recipients=[username])
             msg.html = f"""
             <!DOCTYPE html>
             <html lang="en">
@@ -502,31 +504,31 @@ def set_new_password(token):
         return render_template('login.html', confirm=confirm)
 
 # Endpoint to generate Bearer token
-@app.route('/generate_token_auth', methods=['GET'])
-def generate_token_auth():
-    global global_id_token
-    # Get REFRESH_TOKEN from request data
-    refresh_token = 'eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.LbCWWrJ_5wfE7U9BKgQx8sX0ldFk9k8DW7q-Ui_6yaQicPg77v6sC56_zUrRUkYMUkncOXEQ2QPqJs60X4T7hNCc8qbCiBcsMp_n7UROYU0bIzzhY1LRJkR4BzeiiluJBDHWOX42sbSXJcPoakMLSCVlXki6Hp9X29DbcfsMGMpOKfDVCp4gaGq-C47Cuv2_nLxMEHAnYB17M0xxWdp4586xtDBqZV4dgEBO-qC6iktvfwgQojs9BVV3IxF8JKRcf-n0hAM9bpc-RFUJoKfdysGpIKzxv_kZmPfeHpDkUJ51dtmgVOLWgf5FXRFfbPtgLm2LnkZPiChDSSUahIgYuA.nUYHj8xquOV8Fsr8.RlUXt72jB5ubf2sC2iF75-fUywfqnCUfXG8YQ_Qtz9ZUavQmG5x0X6_Hexm2-iUA8HvkBCXx9W5hI3hD2eDbxYjeRfw1cONXmqZg74y78gF4XTalnWkYuJ3n7QTZE9QRgj8Ik9rHnSUPeiWZ9cEgQat2I7TfWhO2Nv8yh4qpClZcpdTnvtzORXYz-BE0dxwboJJd1MJzwb85EhnJbTatitmxQFgz0aZ8uE2Poje9aJe0qUHHUlqH-FvJBb3t_3y2aOIBBAa9UqAbGyXIpz-XnHH_jcgBy2hBgqHW17P7fPWnzcwdxl_AZv0yM5fhKm5oCYkirjv4Tp-l1Xi0u5gyKrMnsmeGIG5bstMLAri25Vpx9sebOzAHU1nKcPmXgt662rvzV3e-oZbOvKtleNVlrVZxvSW38syJLhYm3wqaGZSWaWVoKWifJgrAWggn5wC3B-1LOV4Sdazx5NkBqH7YUrDrpHFFLLsVvp3gNuk8U_dgwU6mHd5ajymj3_d5ySfSq9pi8VCxtv0er_TuyYGliG60TnYN6fFKQjmLgHlyN_pdnJTupl9jlk-5hIvzKQicoWdJEmlsgcAFSS16ThpUod5-iqtDsJDrXOG3727b_sPpa4Klcu_qqow8aHoIlgzxrVLQHvpLEZkqIOGt_EmWmMHUEH3GVT-Jdy_K-NNhybT448EUimOSZiHgeI6eEFXT24Kr06I1s5ufdItVT9kuCp-Yy7_ZuoJhgsmCWXJRrzIVc2HXdZTbD8yNE2sTupUC-IvUVg4sn55SU3FxYDhc4u6REMhKTWPJSbKuq0Z4_wrPpHW5v76ok8gYQ1mZgVNCJKvTKaVOYy5hfqVyy-cMXkg6wBd_tWc-XDs_TOAy41-zhA-6D6o7lpXN5ieUz2jBHIeV7L9z2YcjNARimjanS5U_6MDvtg3IGxMoJIXL1FVUTgm5yYrgzlNcSLulE5QuyK22vglE3jtJia04Ilo6-afpMM0jUwnGAnlTS9T6bRmdECVWD-7KMNh2MkGUsYp2VjGFM-ey1NdI1xnnnKpAW_3KFTvQbtAi1PAIY7_F-FFKA7jXLJ0xMFU1Xy4y_MXJXeV1hXc92gICTV9Q5bsOWA0zhvsF8OclYJl5HWgmlyOvl1bRpyKtFwGplKiEBe0iOmAzjrMZjisJ2ciXUD2l1TFcZqtU5_eS7OEKtcSDbXtWMjS7vobqmoCC1fTc7-ZyASiIKzPYgoPxZGclFoJeNpmYcFs2IgTrFu0-6Nj6BOEvskAX98i22H08ZgQA0nq4RT8ESVjJdgDJCz-ltOaaIGffTOctZp62oAtgXmnDSH1Oi-tglzKTLyWfEQ.3VEu75MdMKfzfaJzKx0QJg'
-    # Make request to generate token
-    url = "https://dev.botlhale.xyz/generateAuthToken"
-    payload={'REFRESH_TOKEN': refresh_token,}
-    files=[]
-    headers = {}
-    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+# @app.route('/generate_token_auth', methods=['GET'])
+# def generate_token_auth():
+#     global global_id_token
+#     # Get REFRESH_TOKEN from request data
+#     refresh_token = 'eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.LbCWWrJ_5wfE7U9BKgQx8sX0ldFk9k8DW7q-Ui_6yaQicPg77v6sC56_zUrRUkYMUkncOXEQ2QPqJs60X4T7hNCc8qbCiBcsMp_n7UROYU0bIzzhY1LRJkR4BzeiiluJBDHWOX42sbSXJcPoakMLSCVlXki6Hp9X29DbcfsMGMpOKfDVCp4gaGq-C47Cuv2_nLxMEHAnYB17M0xxWdp4586xtDBqZV4dgEBO-qC6iktvfwgQojs9BVV3IxF8JKRcf-n0hAM9bpc-RFUJoKfdysGpIKzxv_kZmPfeHpDkUJ51dtmgVOLWgf5FXRFfbPtgLm2LnkZPiChDSSUahIgYuA.nUYHj8xquOV8Fsr8.RlUXt72jB5ubf2sC2iF75-fUywfqnCUfXG8YQ_Qtz9ZUavQmG5x0X6_Hexm2-iUA8HvkBCXx9W5hI3hD2eDbxYjeRfw1cONXmqZg74y78gF4XTalnWkYuJ3n7QTZE9QRgj8Ik9rHnSUPeiWZ9cEgQat2I7TfWhO2Nv8yh4qpClZcpdTnvtzORXYz-BE0dxwboJJd1MJzwb85EhnJbTatitmxQFgz0aZ8uE2Poje9aJe0qUHHUlqH-FvJBb3t_3y2aOIBBAa9UqAbGyXIpz-XnHH_jcgBy2hBgqHW17P7fPWnzcwdxl_AZv0yM5fhKm5oCYkirjv4Tp-l1Xi0u5gyKrMnsmeGIG5bstMLAri25Vpx9sebOzAHU1nKcPmXgt662rvzV3e-oZbOvKtleNVlrVZxvSW38syJLhYm3wqaGZSWaWVoKWifJgrAWggn5wC3B-1LOV4Sdazx5NkBqH7YUrDrpHFFLLsVvp3gNuk8U_dgwU6mHd5ajymj3_d5ySfSq9pi8VCxtv0er_TuyYGliG60TnYN6fFKQjmLgHlyN_pdnJTupl9jlk-5hIvzKQicoWdJEmlsgcAFSS16ThpUod5-iqtDsJDrXOG3727b_sPpa4Klcu_qqow8aHoIlgzxrVLQHvpLEZkqIOGt_EmWmMHUEH3GVT-Jdy_K-NNhybT448EUimOSZiHgeI6eEFXT24Kr06I1s5ufdItVT9kuCp-Yy7_ZuoJhgsmCWXJRrzIVc2HXdZTbD8yNE2sTupUC-IvUVg4sn55SU3FxYDhc4u6REMhKTWPJSbKuq0Z4_wrPpHW5v76ok8gYQ1mZgVNCJKvTKaVOYy5hfqVyy-cMXkg6wBd_tWc-XDs_TOAy41-zhA-6D6o7lpXN5ieUz2jBHIeV7L9z2YcjNARimjanS5U_6MDvtg3IGxMoJIXL1FVUTgm5yYrgzlNcSLulE5QuyK22vglE3jtJia04Ilo6-afpMM0jUwnGAnlTS9T6bRmdECVWD-7KMNh2MkGUsYp2VjGFM-ey1NdI1xnnnKpAW_3KFTvQbtAi1PAIY7_F-FFKA7jXLJ0xMFU1Xy4y_MXJXeV1hXc92gICTV9Q5bsOWA0zhvsF8OclYJl5HWgmlyOvl1bRpyKtFwGplKiEBe0iOmAzjrMZjisJ2ciXUD2l1TFcZqtU5_eS7OEKtcSDbXtWMjS7vobqmoCC1fTc7-ZyASiIKzPYgoPxZGclFoJeNpmYcFs2IgTrFu0-6Nj6BOEvskAX98i22H08ZgQA0nq4RT8ESVjJdgDJCz-ltOaaIGffTOctZp62oAtgXmnDSH1Oi-tglzKTLyWfEQ.3VEu75MdMKfzfaJzKx0QJg'
+#     # Make request to generate token
+#     url = "https://dev.botlhale.xyz/generateAuthToken"
+#     payload={'REFRESH_TOKEN': refresh_token,}
+#     files=[]
+#     headers = {}
+#     response = requests.request("POST", url, headers=headers, data=payload, files=files)
 
-    if response.status_code == 200:
-        # Parse response JSON
-        auth_result = response.json().get('AuthenticationResult')
-        access_token = auth_result.get('AccessToken')
-        id_token = auth_result.get('IdToken')
+#     if response.status_code == 200:
+#         # Parse response JSON
+#         auth_result = response.json().get('AuthenticationResult')
+#         access_token = auth_result.get('AccessToken')
+#         id_token = auth_result.get('IdToken')
         
-        # Store ID token in session
-        # Update the global variable
-        global_id_token = id_token
+#         # Store ID token in session
+#         # Update the global variable
+#         global_id_token = id_token
         
-        return jsonify({'access_token': access_token, 'id_token': id_token}), 200
-    else:
-        return jsonify({'error': 'Failed to generate token'}), response.status_code
+#         return jsonify({'access_token': access_token, 'id_token': id_token}), 200
+#     else:
+#         return jsonify({'error': 'Failed to generate token'}), response.status_code
 
 
 @app.route('/get-meeting-transcript', methods=['POST'])
@@ -540,7 +542,7 @@ def get_dataa():
         # Get meeting name from the form data
         meeting_name = request.form['meeting_name']
         
-        MONGODB_URI = "mongodb+srv://monamodi68:FVTjynigAKmcKhsH@cluster0.kydsxea.mongodb.net/posts?retryWrites=true&w=majority"
+        MONGODB_URI = os.getenv('MONGO_URI')
         myclient = pymongo.MongoClient(MONGODB_URI)
 
         mydb = myclient["TranscriptForge"]
@@ -557,7 +559,7 @@ def get_dataa():
             headers = {'Authorization': f'Bearer {bearer_token}'}
             
             # Get status using the ASR Async get status GET endpoint
-            status_url = "https://dev.botlhale.xyz/asr/async/status"
+            status_url = os.getenv('STATUS_URL')
             status_params = {'OrgID': org_id, 'FileName': presigned_url_data['fields']['key']}
             status_response = requests.get(status_url, params=status_params, headers=headers)
             if status_response.status_code != 200:
@@ -567,7 +569,7 @@ def get_dataa():
             print('status_data', status_data)
             
             # Get data using the ASR Async get data GET endpoint
-            data_url = "https://dev.botlhale.xyz/asr/async/data"
+            data_url = os.getenv('DATA_URL')
             data_params = {'OrgID': org_id, 'FileName': presigned_url_data['fields']['key']}
             data_response = requests.get(data_url, params=data_params, headers=headers)
             if data_response.status_code != 200:
