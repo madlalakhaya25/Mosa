@@ -1,26 +1,55 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Simple Recorder.js demo with record, stop and pause - addpipe.com</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="hero-section py-5 text-center text-light" style="background-color: #38a8de;">
+  <h1>Effortless Meeting Note Taking with TranscriptForge Meeting Note Taker</h1>
+  <p class="lead">Get an AI-powered meeting assistant that simplifies note-taking, action item tracking, and summary generation.</p>
+  <a href="#" class="btn btn-lg btn-primary">Start for Free</a>
+</div>
 
-    <link rel="stylesheet" type="text/css" href="style.css">
-    
-  </head>
-  <body>
-    <h1>Meeting Recorder</h1>
-    
-    <div id="controls">
-  	 <button id="recordButton">Record</button>
-  	 <button id="pauseButton" disabled>Pause</button>
-  	 <button id="stopButton" disabled>Stop</button>
-    </div>
-    <div id="formats">Format: start recording to see sample rate</div>
-  	<p><strong>Recordings:</strong></p>
-  	<ol id="recordingsList"></ol>
-    <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
-    <script src={{ url_for('static', filename='js/recorder.js')}}></script>
-    <script src={{ url_for('static', filename='js/app.js')}}></script>
-  </body>
-</html>
+<div class="features-section py-5 bg-light">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-4 mb-5">
+              <img src="{{ url_for('static', filename='css/BOTLHALE.png') }}" alt="Automatic Transcription" class="feature-icon">
+              <h2>Automatic Transcription</h2>
+              <p>Automatically transcribe meetings in real-time with high accuracy. Never miss a detail.</p>
+          </div>
+          <div class="col-md-4 mb-5">
+              <img src="{{ url_for('static', filename='css/BOTLHALE.png') }}" alt="Analytics" class="feature-icon">
+              <h2>Analytics</h2>
+              <p>Gain insights into meeting trends, word clouds, and conversation summaries for better decision-making.</p>
+          </div>
+          <div class="col-md-4 mb-5">
+              <img src="{{ url_for('static', filename='css/BOTLHALE.png') }}" alt="Summary Generation" class="feature-icon">
+              <h2>Summary Generation</h2>
+              <p>Create meeting summaries with highlighted key points automatically, saving time and effort.</p>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="visuals-section py-5">
+  <div class="container">
+      <img src="{{ url_for('static', filename='css/vs.png') }}" alt="Visual representation" class="img-fluid">
+  </div>
+</div>
+
+<div class="info-section py-5 bg-light">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-8 offset-md-2 text-center">
+              <h2 class="mb-4">Why Choose TranscriptForge Meeting Note Taker?</h2>
+              <p class="lead mb-4">TranscriptForge Meeting Note Taker offers a seamless note-taking experience with advanced AI features:</p>
+              <ul class="list-unstyled">
+                  <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Real-time transcription with high accuracy</li>
+                  <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Comprehensive analytics for meeting insights</li>
+                  <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Automated summary generation for efficient review</li>
+                  <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Secure cloud storage for easy access</li>
+              </ul>
+              <a href="#" class="btn btn-lg btn-primary">Start for Free</a>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="footer py-3 text-center" style="background-color: #333;">
+  <p class="text-light">&copy; 2024 Botlhale AI</p>
+</div>

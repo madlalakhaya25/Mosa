@@ -1,0 +1,16 @@
+{
+  "type": "service_account",
+  "project_id": "botlhale-meeting-app",
+  "private_key_id": "ecb05d91a54ba12ad52faf14279c1cab4ec52110",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDI3X2W8umNOPLJ\nU753XC+ILjFmzWCuc7ivfWLJj7NcV9FmkFEdt43+5G1Hn5RN+e/G4HOHnys2n/15\nx7Eu58PDMDOwA35T1uvnZteMMeXS3Wqr3AUBBGDANO9vNXfEym5ywy57t1Ia4nZ/\nUeOP/qNE5WzdgVz0Zcs7tG+2Kdha5Ph1SjaprmbVOoqnTQLx/TOuhbXgsJe21rQP\nwn3VJcjEVILk2p+4smrghvnWt9TtnpGgtzB6ljCWysq4KqwJ1E1NR7gUOUuc3fA4\nQYKxAzk0o/7VWDmyPwIyPthHNil3H5ERUYp/3DCm+j3EBVKP8IbWh0ea5Sz5SMxG\nWYOQjqqTAgMBAAECggEAYN9pbX5zovdfKDeqOTiNd/kHPFQ6l4gZ/xDSrvEOCLAV\nvohFhrZ61f5msc9FoCG1QU4IidT661pXzf6/9iYypJU/qFjW+SpDFZPkyqlZ9Mty\nYbY395ib7Lba7uBzhcY3ZEO7zFDKWUr06UyeGlktdtHLIjz8jqX1UTMhWVJvFM5T\nuENyqfWdfWLyt7zHYEzpc63vFceEdbhTLb6k6XdmMQDOfpUx0oidm/uFk9pIJCLa\nXIbj9X0jVikmtq3Hn0C6gHZge1KasBAmf14PB4t5mlvbFLR+UfkS7404Yg03kl0m\np3RyCI0N+bpRPMGst03yn4aca2bUb2XFWwY3xD8jgQKBgQDzir1H1yBQJGYx18h2\nIhaxi2X+IR+vtCYNerDicu5kEhpJIxJkWiwEKYMXQfsk0vhjm3VvqDeXtLVThqco\nee5e3aBrEjAs//wVlo2BJZvPnIf4ZyhEsh+EGd8boQ4Aa1F7QoeZwhAlL8TOm+1R\n82cwz2i+WwH0Wj7ubzL1D7aiQQKBgQDTI+KkYH76v19hsK/p6CPKfCiEBPD0u5xe\n1ix72f0lDBt3x5FUlci+KwwRsU4W9LYVRgjNSKUzoye05YU+qN2yOzG4otuoO8+2\n+0+qo/MJvxKDRWjx2JQFOMMy7njh+gVU35o/KynbUOl8WZ1ZJ7I7GfDIXExrHp6n\n5kzR+/0v0wKBgQDF0a7XmL0Ne9NqrvyMQDowsqsA1gT34ht6nWrqNTLAJBgnyg4Z\nZ0kThGiPzq9hhN/vgInOTVQCrO0QUHKcpRXjBqBT+C0bkD5Bhs2f1l2OMHYdZiVG\nT2zcD2uy9In7+y/vL+YXFZOpsPhqXitRgqUR95b7785RnbA6WiaI+d9+QQKBgHLu\nQ76qcDRZ27e3j+pJXMIp13wVnHv7a+ELwGcif/OcpY8L6QYcCovJruYql5FTX5Iw\n7zWfZ522IDUOAvvau+L66dPRgrQO6sB2CCWg3PjfM1qVe8y50ckN3uNogBCyIhjT\nJolgG4awgogX19jiDNizBChsZYShxEcsy4A6JNXVAoGBAKsu/AKS2l+V3W1DTLGl\nVv14ZPmV4sv2LQ3VYZz5bbJjgDQovacPuk/Z6wParq4skohxaKRqPk9opttHcpUp\nqCFUTi5Zg1v9My2Nf1XQfcNJqSYujTB0oQREyjEf7/9cxT7l1kFbSZ0/rrBANw0W\n8vPPgnZLcNGPMwPpBe+96fJN\n-----END PRIVATE KEY-----\n",
+  "client_email": "bothlale-meeting@botlhale-meeting-app.iam.gserviceaccount.com",
+  "client_id": "101209076141623463831",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bothlale-meeting%40botlhale-meeting-app.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
+
+
+

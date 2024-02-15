@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}Recording Audio{% endblock %}
-
-
+{% block navbar %}
+{% include 'navbar.html'  %}
+{% endblock %}
 
 {% block content %}
-    {% include 'recordingAudio.html' %}
-    
+    {% with username = username %}
+    {% include 'recordingAudio.html'  %}
+    {% endwith %}
 {% endblock %}

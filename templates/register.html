@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- Google Sign-In library -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <meta name="google-signin-client_id" content="861494855630-j6btrl2fvbu37a8o71cenvme3mm3ta8u.apps.googleusercontent.com">
+    <style>
+        /* Custom styles */
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+        }
+        .card {
+            border-radius: 10px; /* Rounded corners for the card */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #555; /* Dark gray label color */
+        }
+        .btn-theme {
+            background-color: #38a8de; /* Button background color */
+            border-color: #38a8de; /* Button border color */
+            color: #fff; /* Button text color */
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Smooth transition */
+        }
+        .btn-theme:hover {
+            background-color: #297aa1; /* Darker background color on hover */
+            border-color: #297aa1; /* Darker border color on hover */
+        }
+        .footer {
+            color: #fff; /* Light text color for the footer */
+        }
+        .g-signin2 {
+            margin-top: 20px; /* Spacing above Google Sign-In button */
+        }
+        #passwordStrength {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main-wrapper" class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card border-0 mt-4">
+                    <div class="card-body p-4">
+                        {% if confirm %}
+                            <p class="text-danger">{{ confirm }}</p>
+                        {% endif %}
+                        <div class="mb-4">
+                            <h3 class="h4 font-weight-bold text-theme">Create an account</h3>
+                        </div>
+                        <h6 class="h5 mb-4">Welcome to TranscriptForge!</h6>
+                        <p class="text-muted mb-4">Enter your email address and password to register an account.</p>
+                        <form method="POST" id="registrationForm" aria-label="User Registration Form" autocomplete="off">
+                            <div class="form-group">
+                                <label for="username">Email Address</label>
+                                <input type="email" class="form-control" id="username" name="username" aria-label="Enter your email address" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" aria-label="Enter your password" required>
+                                <!-- Password strength indicator -->
+                                <div id="passwordStrength" class="mt-2"></div>
+                            </div>
+                            <button type="submit" class="btn btn-theme mb-3">Register</button>
+                        </form>
+                        <hr class="my-4">
+                        <p class="text-muted mb-0">Already have an account? <a href="/login" class="text-primary">Login</a></p>
+                    </div>
+                </div>
+                <!-- In register.html or login.html -->
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+                <div class="text-center mt-4">
+                    <!-- Google Sign-In button -->
+                    <div id="g_id_onload"
+                         data-client_id="861494855630-j6btrl2fvbu37a8o71cenvme3mm3ta8u.apps.googleusercontent.com"
+                         data-callback="handleCredentialResponse">
+                    </div>
+                    <div class="g_id_signin" data-type="standard"></div>
+                </div>
+                <div class="text-center mt-3">
+                    <!-- Back to Home button -->
+                    <a href="/" class="btn btn-outline-secondary">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer py-3 text-center" style="background-color: #333;">
+        <p class="text-light">&copy; 2024 Botlhale AI</p>
+    </div>
+
+    <script>
+        // JavaScript code for form submission handling
+        const registrationForm = document.getElementById('registrationForm');
+        registrationForm.addEventListener('submit', function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+
+            // Perform form validation or other actions here
+            // Example: You can validate the email and password fields before submitting the form
+            const email = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Here, you can add your validation logic or any other functionality as needed
+
+            // After validation, you can submit the form programmatically
+            registrationForm.submit();
+        });
+
+        function onSignIn(googleUser) {
+    // Retrieve the Google ID token
+    const idToken = googleUser.getAuthResponse().id_token;
+
+    // Make a fetch request to the "/google_signin" endpoint
+    fetch('/google_signin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ idtoken: idToken })
+    })
+    .then(handleResponse)
+    .then(handleData)
+    .catch(handleError);
+}
+
+// Helper function to handle fetch response
+function handleResponse(response) {
+    if (!response.ok) {
+        throw new Error('Network response was not ok.');
+    }
+    return response.json();
+}
+
+// Helper function to handle response data
+function handleData(data) {
+    if (data.redirect_url) {
+        window.location.href = data.redirect_url;
+    } else {
+        console.error('Redirect URL not provided in response');
+    }
+}
+
+// Helper function to handle fetch errors
+function handleError(error) {
+    console.error('Fetch error:', error);
+}
+
+
+function handleCredentialResponse(response) {
+    // Handle the response from Google Identity Services
+    console.log(response);
+
+    // Extract the JWT ID token from the response
+    const idToken = response.credential;
+
+    // Send the token to the backend for validation and session establishment
+    fetch('/google_signin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ idtoken: idToken })
+    })
+    .then(response => {
+        if (response.ok) {
+            // Handle successful response
+            return response.json();
+        } else {
+            // Handle error response
+            throw new Error('Network response was not ok.');
+        }
+    })
+    .then(data => {
+        if (data.redirect_url) {
+            window.location.href = data.redirect_url; // Redirect to the dashboard
+        } else {
+            // Handle the lack of redirect
+            console.error('Error during sign-in:', data.message);
+            // Display an error message or take other appropriate actions
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        // Handle the fetch error appropriately
+    });
+}
+    </script>
+
+
+</body>
+</html>

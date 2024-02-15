@@ -1,6 +1,6 @@
 
 URL = window.URL || window.webkitURL;
-        
+
 var gumStream; 						//stream from getUserMedia()
 var rec; 							//Recorder.js object
 var input; 							//MediaStreamAudioSourceNode we'll be recording
@@ -12,6 +12,38 @@ var audioContext //audio context to help us record
 var recordButton = document.getElementById("recordButton");
 var stopButton = document.getElementById("stopButton");
 var pauseButton = document.getElementById("pauseButton");
+var nameInput = document.getElementById("name"); // Add reference to the name input field
+
+// Initially disable the record button
+recordButton.disabled = true;
+
+// Add an event listener to the name input field to enable/disable the record button based on its value
+nameInput.addEventListener("input", function () {
+	if (nameInput.value.trim() !== "") {
+		recordButton.disabled = false;
+	} else {
+		recordButton.disabled = true;
+	}
+});
+
+// Add an event listener to the record button to check if the name is provided before starting recording
+recordButton.addEventListener("touchstart", function () {
+	if (nameInput.value.trim() === "") {
+		alert("Please enter the name of the meeting.");
+		return; // Prevent further execution
+	}
+
+	startRecording();
+});
+
+recordButton.addEventListener("mouseover", function () {
+	if (nameInput.value.trim() === "") {
+		alert("Please enter the name of the meeting.");
+		return; // Prevent further execution
+	}
+
+	startRecording();
+});
 
 //add events to those 2 buttons
 recordButton.addEventListener("click", startRecording);
@@ -19,24 +51,25 @@ stopButton.addEventListener("click", stopRecording);
 pauseButton.addEventListener("click", pauseRecording);
 
 function startRecording() {
+	document.getElementById('recordButton').classList.add('recording-indicator');
 	console.log("recordButton clicked");
-	var constraints = { audio: true, video:false }
+	var constraints = { audio: true, video: false }
 
 	recordButton.disabled = true;
 	stopButton.disabled = false;
 	pauseButton.disabled = false
 
-	navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+	navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
 		console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
 
 		audioContext = new AudioContext();
 
 		//update the format 
-		document.getElementById("formats").innerHTML="Format: 1 channel pcm @ "+audioContext.sampleRate/1000+"kHz"
+		document.getElementById("formats").innerHTML = "Format: 1 channel pcm @ " + audioContext.sampleRate / 1000 + "kHz"
 
 		/*  assign to gumStream for later use  */
 		gumStream = stream;
-		
+
 		/* use the stream */
 		input = audioContext.createMediaStreamSource(stream);
 
@@ -44,36 +77,37 @@ function startRecording() {
 			Create the Recorder object and configure to record mono sound (1 channel)
 			Recording 2 channels  will double the file size
 		*/
-		rec = new Recorder(input,{numChannels:1})
+		rec = new Recorder(input, { numChannels: 1 })
 
 		//start the recording process
 		rec.record()
 
 		console.log("Recording started");
 
-	}).catch(function(err) {
-		  //enable the record button if getUserMedia() fails
+	}).catch(function (err) {
+		//enable the record button if getUserMedia() fails
 		recordButton.disabled = false;
 		stopButton.disabled = true;
 		pauseButton.disabled = true
 	});
 }
 
-function pauseRecording(){
-	console.log("pauseButton clicked rec.recording=",rec.recording );
-	if (rec.recording){
+function pauseRecording() {
+	console.log("pauseButton clicked rec.recording=", rec.recording);
+	if (rec.recording) {
 		//pause
 		rec.stop();
-		pauseButton.innerHTML="Resume";
-	}else{
+		pauseButton.innerHTML = "Resume";
+	} else {
 		//resume
 		rec.record()
-		pauseButton.innerHTML="Pause";
+		pauseButton.innerHTML = "Pause";
 
 	}
 }
 
 function stopRecording() {
+	document.getElementById('recordButton').classList.remove('recording-indicator');
 	console.log("stopButton clicked");
 
 	//disable the stop button, enable the record too allow for new recordings
@@ -82,8 +116,8 @@ function stopRecording() {
 	pauseButton.disabled = true;
 
 	//reset button just in case the recording is stopped while paused
-	pauseButton.innerHTML="Pause";
-	
+	pauseButton.innerHTML = "Pause";
+
 	//tell the recorder to stop the recording
 	rec.stop();
 
@@ -93,68 +127,159 @@ function stopRecording() {
 	//create the wav blob and pass it on to createDownloadLink
 	rec.exportWAV(uploadRecording);
 	rec.exportWAV(createDownloadLink);
+
 }
 
 function uploadRecording(blob) {
-	// Get the current datetime
-	const currentDatetime = new Date().toISOString().replace(/[-T:]/g, '');
+    var progress = document.getElementById('uploadProgress');
+    var progressBar = progress.querySelector('.progress-bar');
+    progress.style.display = 'block';
+    progressBar.style.width = '0%';
+    document.querySelector('.upload-link i').classList.replace('fa-upload', 'fa-spinner');
 
-	// Create a filename with the current datetime
-	const filename = `recording_${currentDatetime}.wav`;
+    // Get the current datetime
+    const currentDatetime = new Date().toISOString().replace(/[-T:]/g, '');
 
-	// Upload the recording to the server
-	const formData = new FormData();
-	formData.append('audio', blob, filename);
+    // Create a filename with the current datetime
+    const filename = `recording_${currentDatetime}.wav`;
+    // Get the name value
+    const name = document.getElementById("name").value;
 
-	fetch('/uploadAudioRoute_prefix/upload', {
-		method: 'POST',
-		body: formData
+    // Create a new Date object
+    var currentDateT = new Date();
+    // Get the current date and time components
+    var year = currentDateT.getFullYear();
+    var month = currentDateT.getMonth() + 1; // Month is zero-indexed, so we add 1
+    var day = currentDateT.getDate();
+
+    // Format the date and time as a string
+    var currentDate = year + '-' + addLeadingZero(month) + '-' + addLeadingZero(day);
+
+    // Function to add leading zero to single-digit numbers
+    function addLeadingZero(number) {
+        return number < 10 ? '0' + number : number;
+    }
+
+    // Upload the recording to the server
+    const formData = new FormData();
+    formData.append('audio', blob, filename);
+    formData.append('name', name);
+    formData.append('date', currentDate);
+
+    fetch('/uploadAudioRoute_prefix/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+	// ............................................................
+	.then(data => {
+		clearInterval(uploadInterval); // Clear the interval for simulated progress
+		progressBar.style.width = '100%';
+		setTimeout(() => {
+			progress.style.display = 'none';
+			progressBar.style.width = '0%';
+			document.getElementById('uploadCompleteMessage').style.display = 'block'; // Show upload complete message
+	
+			// Hide the upload complete message after 2 seconds (adjust as needed)
+			setTimeout(() => {
+				document.getElementById('uploadCompleteMessage').style.display = 'none';
+				window.location.reload(); // Reload the page
+			}, 5000);
+		}, 1000);
+	
+		// Reset the upload icon when the recording process is finished
+		document.querySelector('.upload-link i').classList.replace('fa-spinner', 'fa-upload');
 	})
-	.then(response => {
-		// Handle the server response if needed
-		console.log('Upload successful:', response);
-	})
-	.catch(error => console.error('Error uploading audio:', error));
+
+    .catch(error => {
+        console.error('Error uploading audio:', error);
+        // Handle the error, perhaps by showing an error message to the user
+        // Reset the upload icon when the recording process is finished
+        document.querySelector('.upload-link i').classList.replace('fa-spinner', 'fa-upload');
+        // Hide the progress bar if an error occurs during upload
+        progress.style.display = 'none';
+        progressBar.style.width = '0%';
+    });
+
+    // Simulate progress
+    var uploadInterval = setInterval(function () {
+        if (parseInt(progressBar.style.width, 10) >= 100) {
+            clearInterval(uploadInterval);
+        } else {
+            var currentWidth = parseInt(progressBar.style.width, 10);
+            progressBar.style.width = (currentWidth + 10) + '%';
+        }
+    }, 1000);
 }
-
-
+// ............................................................
+// ............................................................
 function createDownloadLink(blob) {
-	var url = URL.createObjectURL(blob);
-	var au = document.createElement('audio');
-	var li = document.createElement('li');
-	var link = document.createElement('a');
+    var url = URL.createObjectURL(blob);
+    var au = document.createElement('audio');
+    var li = document.createElement('li');
+    var link = document.createElement('a');
 
-	//name of .wav file to use during upload and download (without extension)
-	var filename = new Date().toISOString();
+    // Name of .wav file to use during upload and download (without extension)
+    var filename = new Date().toISOString();
 
-	//add controls to the <audio> element
-	au.controls = true;
-	au.src = url;
+    // Add controls to the <audio> element
+    au.controls = true;
+    au.src = url;
 
-	//save to disk link
-	link.href = url;
-	link.download = filename+".wav"; //download forces the browser to download the file using the  filename
-	link.innerHTML = "Save to disk";
+    // Function to create button element with specified icon and tooltip
+    function createButton(iconClass, title) {
+        var button = document.createElement('button');
+        button.innerHTML = `<i class="${iconClass}"></i>`;
+        button.setAttribute('title', title);
+        button.classList.add('button'); // Add a class for styling
+        return button;
+    }
 
-	//add the new audio element to li
-	li.appendChild(au);
-	
-	//add the filename to the li
-	li.appendChild(document.createTextNode(filename+".wav "))
+    // Play button
+    var playButton = createButton('fas fa-play', 'Play');
+    playButton.addEventListener('click', function () {
+        au.play();
+    });
+    li.appendChild(playButton);
 
-	//add the save to disk link to li
-	li.appendChild(link);
-	
-	//upload link
-	var upload = document.createElement('a');
-	upload.href = "#";
-	upload.innerHTML = "Upload";
-	upload.addEventListener("click", function (event) {
-		uploadRecording(blob);
-	})
-	li.appendChild(document.createTextNode(" ")) //add a space in between
-	li.appendChild(upload) //add the upload link to li
+    // Stop button
+    var stopButton = createButton('fas fa-stop', 'Stop');
+    stopButton.addEventListener('click', function () {
+        au.pause();
+        au.currentTime = 0;
+    });
+    li.appendChild(stopButton);
 
-	//add the li element to the ol
-	recordingsList.appendChild(li);
+    // Save to disk link
+    var downloadButton = createButton('fas fa-download', 'Save to disk');
+    downloadButton.href = url;
+    downloadButton.download = filename + ".wav";
+    link.appendChild(downloadButton);
+    li.appendChild(link);
+
+    // Upload button
+    var uploadButton = createButton('fas fa-upload', 'Upload');
+    uploadButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        uploadRecording(blob);
+    });
+    li.appendChild(uploadButton);
+
+    // Add the new audio element to li
+    li.appendChild(au);
+
+    // Add the filename to the li
+    li.appendChild(document.createTextNode(filename + ".wav "));
+
+    // Add the li element to the ol
+    recordingsList.appendChild(li);
+
+    // ............................................................
 }
+
+    // ............................................................

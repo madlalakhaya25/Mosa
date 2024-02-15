@@ -1,0 +1,84 @@
+{% if summaryList %}
+  <p class="text-primary">Select a meeting to view the Summary...</p>
+  {% for meeting in summaryList %}
+    <div class="accordion mb-4">
+      <button class="fw-bold border-start border-primary-subtle accordion-button text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+        {{ meeting.Meeting_Name }} - {{ meeting.Date }}
+      </button>
+    </div>
+    <div class="collapse mb-4" id="collapse{{ loop.index }}">
+      <div class="card card-body">
+        <p>{{ meeting.summary }}</p>
+
+        <form action="/get-meeting-transcript" method="post">
+          <input type="hidden" id="meeting_name" name="meeting_name" value="{{ meeting.Meeting_Name }}">
+          <button type="submit" class="btn btn-info text-light col-auto">View full meeting transcript</button>
+          
+        </form>
+        <div class="audio-player">
+          <!-- Audio element -->
+          <audio id="audio{{ loop.index }}" controls="false" style="display: none;">
+              <source src="https://storage.cloud.google.com/botlhale-meeting-audio/{{ meeting.recording_name }}?authuser=0" >
+              Your browser does not support the audio element.
+          </audio>
+          
+          <!-- Custom controls -->
+          <div class="controls">
+              <!-- Play button -->
+              <button class="btn btn-primary" id="playPauseBtn{{ loop.index }}">Play</button>
+              <!-- Progress bar -->
+              <input type="range" id="progressBar{{ loop.index }}" class="form-range" min="0" value="0">
+              <!-- Current time and duration -->
+              <span id="currentTime{{ loop.index }}">0:00</span> / <span id="duration{{ loop.index }}">0:00</span>
+          </div>
+          <p class="fs-6">Listen to audio of the Meeting</p>
+          <script>
+            const audio{{ loop.index }} = document.getElementById('audio{{ loop.index }}');
+            const playPauseBtn{{ loop.index }} = document.getElementById('playPauseBtn{{ loop.index }}');
+            const progressBar{{ loop.index }} = document.getElementById('progressBar{{ loop.index }}');
+            const currentTimeDisplay{{ loop.index }} = document.getElementById('currentTime{{ loop.index }}');
+            const durationDisplay{{ loop.index }} = document.getElementById('duration{{ loop.index }}');
+    
+            // Play or pause the audio
+            playPauseBtn{{ loop.index }}.addEventListener('click', () => {
+                if (audio{{ loop.index }}.paused || audio{{ loop.index }}.ended) {
+                    audio{{ loop.index }}.play();
+                    playPauseBtn{{ loop.index }}.textContent = 'Pause';
+                } else {
+                    audio{{ loop.index }}.pause();
+                    playPauseBtn{{ loop.index }}.textContent = 'Play';
+                }
+            });
+    
+            // Update progress bar and time displays
+            audio{{ loop.index }}.addEventListener('timeupdate', () => {
+                const progress = (audio{{ loop.index }}.currentTime / audio{{ loop.index }}.duration) * 100;
+                progressBar{{ loop.index }}.value = progress;
+                currentTimeDisplay{{ loop.index }}.textContent = formatTime(audio{{ loop.index }}.currentTime);
+                durationDisplay{{ loop.index }}.textContent = formatTime(audio{{ loop.index }}.duration);
+            });
+    
+            // Update audio playback position when dragging progress bar
+            progressBar{{ loop.index }}.addEventListener('input', () => {
+                const progress = progressBar{{ loop.index }}.value / 100 * audio{{ loop.index }}.duration;
+                audio{{ loop.index }}.currentTime = progress;
+            });
+    
+            // Format time in minutes:seconds
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const remainderSeconds = Math.floor(seconds % 60);
+                const formattedTime = `${minutes}:${remainderSeconds.toString().padStart(2, '0')}`;
+                return formattedTime;
+            }
+        </script>
+        </div>
+  
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <div class="alert alert-info" role="alert">
+    No meetings found
+  </div>
+{% endif %}
