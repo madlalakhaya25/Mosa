@@ -21,16 +21,19 @@ from google.auth.transport import requests as google_requests
 import jwt  # Make sure to import jwt library
 import logging
 import datetime
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+# Load environment variables from .env file
+load_dotenv()
+
 CORS(app)
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Replace 'your_secret_key_here' with your actual secret key
-SECRET_KEY = 'a169b7fd5fb03a4ee470a5bee3a460e3cb7ea3930c212811113f8e175c6c1d6e'
-
+app.secret_key = os.getenv('SECRET_KEY')
 
 
 def create_new_user_in_database(user_id):
@@ -53,12 +56,13 @@ GOOGLE_DISCOVERY_URL = (
 
 # Flask-Mail configuration for Gmail
 # Setting up Flask-Mail to use Gmail SMTP server for sending emails.
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'academicnetwork2@gmail.com'
-app.config['MAIL_PASSWORD'] = 'azhu auhe mzhz yzoi'  # Replace with actual password
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 mail = Mail(app)
+
 
 # Secret key for session management
 app.secret_key = 'dhdjkdlshfsdvfsja;ajlauya'
@@ -260,6 +264,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def get_summary():
     if 'username' not in session:
         abort(401)  # Unauthorized
+
     try:
         currently_logged_in_user = session["username"]
     except KeyError as e:
@@ -272,9 +277,9 @@ def get_summary():
 
         mydb = myclient["TranscriptForge"]
         mycol = mydb["Meeting_details"]
-        
-        summaryList = []  # Initialize the list here
-        
+
+        summaryList = []
+
         for x in mycol.find({"UserEmail": currently_logged_in_user}):
             summary = x['Summary']
             meeting_name = x['Meeting_Name']
@@ -286,15 +291,19 @@ def get_summary():
 
             print("Recording Name:", recording_name)
 
-            summaryList.append({"summary": summary, "Meeting_Name": meeting_name, "Date": date, "recording_name": recording_name})
-            
+            summaryList.append({
+                "summary": summary,
+                "Meeting_Name": meeting_name,
+                "Date": date,
+                "recording_name": recording_name
+            })
+
+        print(summaryList)
+        return render_template('summary.html', summaryList=summaryList)
+
     except Exception as e:
         print(f"Error accessing MongoDB: {e}")
         return "Error accessing MongoDB"
-    
-    print(summaryList)
-    return render_template('summary.html', summaryList=summaryList)
-
 
 @app.route('/getdata', methods=['GET'])
 def get_data():
