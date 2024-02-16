@@ -6,15 +6,18 @@ import asyncio
 from werkzeug.utils import secure_filename
 from google.cloud import storage
 import traceback
+from dotenv import load_dotenv
+import os
+
 
 uploadAudioRoute = Blueprint('transcript', __name__)
 
 # Replace with your bucket name
-BUCKET_NAME = "botlhale-meeting-audio"
+BUCKET_NAME = os.getenv("BUCKET_NAME")
 
 # Replace with your credentials path
 CREDENTIALS_PATH = "keyfile.json"
-
+load_dotenv()
 
 @uploadAudioRoute.route('/upload', methods=['POST'])
 def upload():
@@ -25,7 +28,7 @@ def upload():
         bearer_token = session.get('id_token')
         print('bearer_token', bearer_token)
 
-        org_id = 'BotlhaleAI999'
+        org_id = os.getenv("ORG_ID")
         language_code = 'en-wZA'
         sample_rate = '16000'
         diarization = True
@@ -56,8 +59,9 @@ def upload():
         public_url = blob.public_url
         
         # API endpoints and credentials
-        upload_url = "https://dev.botlhale.xyz/asr/async/upload"
-        api_url = 'https://dev.botlhale.xyz/llm'
+        upload_url = os.getenv("UPLOAD_URL")
+        api_url = os.getenv("API_URL")
+
         
         headers = {'Authorization': f'Bearer {bearer_token}'}
         payload = {'OrgID': org_id, 'LanguageCode': language_code, 'SampleRate': sample_rate, 'Diarization': diarization}
@@ -82,7 +86,7 @@ def upload():
             print("Hello")
             await asyncio.sleep(10)
             # Get status using the ASR Async get status GET endpoint
-            status_url = "https://dev.botlhale.xyz/asr/async/status"
+            status_url = os.getenv('STATUS_URL')
             status_params = {'OrgID': org_id, 'FileName': presigned_url_data['fields']['key']}
             status_response = requests.get(status_url, params=status_params, headers=headers)
             if status_response.status_code != 200:
@@ -94,7 +98,7 @@ def upload():
         asyncio.run(main())
      
         # Get data using the ASR Async get data GET endpoint
-        data_url = "https://dev.botlhale.xyz/asr/async/data"
+        data_url = os.getenv('DATA_URL')
         data_params = {'OrgID': org_id, 'FileName': presigned_url_data['fields']['key']}
         data_response = requests.get(data_url, params=data_params, headers=headers)
         if data_response.status_code != 200:
@@ -125,7 +129,7 @@ def upload():
         
         if response.status_code == 200:
             try:
-                MONGODB_URI="mongodb+srv://monamodi68:FVTjynigAKmcKhsH@cluster0.kydsxea.mongodb.net/posts?retryWrites=true&w=majority"
+                MONGODB_URI=os.getenv('MONGO_URI')
                 myclient = pymongo.MongoClient(MONGODB_URI)
 
                 mydb = myclient["TranscriptForge"]
