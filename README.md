@@ -32,29 +32,18 @@ Your Meeting App keeps track of discussions and action items in real-time, provi
 - **Speaker Identification:** Automatically label speakers for clarity.
 - **Summarization:** Generate concise summaries for quick review and reference.
 - **Action Item Tracking:** Easily identify and track action items and decisions.
-Quick Start
+- 
+## QUICK START
+    -- Clone or Download: Obtain the repository by cloning it or downloading the ZIP file.
+    -- Install Dependencies: Ensure all necessary dependencies are installed.
+    -- Run the Application: Launch the application to access the user-friendly dashboard.
+    -- Start Recording: Initiate recordings with a click and let TranscriptForge handle the rest!
 
-    Clone or Download: Obtain the repository by cloning it or downloading the ZIP file.
-    Install Dependencies: Ensure all necessary dependencies are installed.
-    Run the Application: Launch the application to access the user-friendly dashboard.
-    Start Recording: Initiate recordings with a click and let TranscriptForge handle the rest!
-
-How to Contribute
-
-
-
+## How to Contribute
 We welcome contributions from the community! Whether you're fixing bugs, adding features, or improving documentation, your input is invaluable. Simply send us a pull request, and let's make TranscriptForge even better together.
-License
-
-TranscriptForge is an open-source project licensed under the MIT License, granting you the freedom to use and modify it for personal and commercial purposes.
-Support and Collaboration
-
 Questions? Suggestions? We'd love to hear from you! Reach out to us directly or join our vibrant community forum. Your feedback is essential to our ongoing improvement efforts.
-User Guide
-Introduction
 
-TranscriptForge is an AI-powered tool designed to revolutionize your meeting experience. It simplifies note-taking, action item tracking, and summary generation, empowering professionals and teams to manage and review meetings effortlessly.
-Getting Started
+## Getting Started
 
     Installation:
         Download the TranscriptForge application from the provided repository.
