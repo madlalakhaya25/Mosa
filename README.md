@@ -43,6 +43,33 @@ Your Meeting App keeps track of discussions and action items in real-time, provi
 We welcome contributions from the community! Whether you're fixing bugs, adding features, or improving documentation, your input is invaluable. Simply send us a pull request, and let's make TranscriptForge even better together.
 Questions? Suggestions? We'd love to hear from you! Reach out to us directly or join our vibrant community forum. Your feedback is essential to our ongoing improvement efforts.
 
+Flask-Admin is an active project, well-tested and production ready.
+
+Lets get it running
+--------
+
+run in your local environment::
+
+  1. Clone the repository::
+
+        git clone  https://github.com/MURGGAR/TranscriptForge.git
+        cd TranscriptForge
+
+  2. Create and activate a virtual environment::
+
+        virtualenv env -p python3
+        source env/Scripts/activate
+
+  3. Install requirements::
+
+        pip install -r /requirements.txt
+
+  4. Run the application::
+
+        python app.py
+     see futher more below
+
+     
 ## Getting Started
 
     Installation:
