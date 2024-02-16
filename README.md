@@ -47,7 +47,7 @@ Questions? Suggestions? We'd love to hear from you! Reach out to us directly or 
 
     Installation:
         Download the TranscriptForge application from the provided repository.
-        Install any required dependencies as outlined in the installation guide.
+        Install any required dependencies as outlined in the Requirements.txt file.
     Running the Application:
         Launch the application to access the intuitive dashboard.
         Follow the prompts to log in or create a new account.
