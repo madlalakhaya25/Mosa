@@ -2,7 +2,7 @@
 
 
 
-<h1 align="center"><b>TranscriptForge</b></h1>
+<h1 align="center"><b><font color="blue">This is red text</font></b></h1>
 <p align="center">
 TranscriptForge revolutionizes meeting productivity with AI-driven audio transcription and note-taking. Seamlessly capture discussions, organize notes, and highlight action items effortlessly.
 Overview
