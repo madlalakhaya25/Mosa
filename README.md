@@ -20,7 +20,7 @@ Features
 
 
 <p align="center">
-   <img width="128px" src="static/css/vs.png" />
+   <img width="718px" src="static/css/vs.png" />
 </p>
 
 ## How It Works
