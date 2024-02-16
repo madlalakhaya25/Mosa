@@ -85,3 +85,6 @@ Troubleshooting
         For transcription errors, check for background noise and speak clearly.
         Verify storage permissions and designated folders if recordings appear to be missing.
 
+## Tech
+
+transcritForge is part one of [Botlhale AI](https://botlhale.ai/) platforms. Its UI is written in CSS using Javascript and its backend is written in [Python Flask Framework](https://www.python.org/).
