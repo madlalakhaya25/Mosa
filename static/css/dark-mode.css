@@ -1,0 +1,233 @@
+/* Style the Dark Mode toggle switch */
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+    margin-left: 20px; /* Add some space between the login buttons and toggle */
+}
+
+.dark-mode-toggle label {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.dark-mode-toggle label::before {
+    content: "☀️";
+    font-size: 18px;
+}
+
+.dark-mode-toggle label::after {
+    content: "🌙";
+    font-size: 18px;
+}
+
+.dark-mode-toggle label::before,
+.dark-mode-toggle label::after {
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Define dark mode colors */
+:root {
+    --dark-background: #121212;
+    --dark-surface: #1e1e1e;
+    --dark-text: #ffffff;
+    --dark-border: #333333;
+    --dark-accent: #4ecca3; /* Customized accent color for dark mode */
+    --darken-accent: #3aa283; /* A darker shade for active elements */
+}
+
+/* Dark mode toggle switch styles */
+.dark-mode-toggle input[type="checkbox"] {
+    display: none;
+}
+
+.dark-mode-toggle input[type="checkbox"] + label::before {
+    content: "☀️";
+    color: #f1c40f;
+    transition: transform 0.3s; /* Smooth transition for the icon */
+}
+
+.dark-mode-toggle input[type="checkbox"] + label::after {
+    content: "🌙";
+    color: #f39c12;
+    transition: transform 0.3s; /* Smooth transition for the icon */
+}
+
+.dark-mode-toggle input[type="checkbox"]:checked + label::before {
+    transform: scale(0);
+}
+
+.dark-mode-toggle input[type="checkbox"]:checked + label::after {
+    transform: scale(1);
+}
+
+/* Apply dark mode styles */
+.dark-mode {
+    background-color: var(--dark-background);
+    color: var(--dark-text);
+}
+
+/* Dark mode sidebar styling */
+.dark-mode .sidebar,
+nav .sidebar {
+    background-color: var(--dark-background);
+    color: var(--dark-text);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Main content styles in dark mode */
+.dark-mode .main-content {
+    background-color: var(--dark-surface);
+    color: var(--dark-text);
+}
+
+/* Header styles in dark mode */
+.dark-mode .header {
+    background-color: var(--dark-surface);
+    color: var(--dark-text);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Button styles in dark mode */
+.dark-mode .user-info span,
+.dark-mode button,
+.dark-mode .btn-info,
+.dark-mode .btn-primary {
+    color: var(--dark-text);
+    background-color: var(--dark-accent);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode button:hover,
+.dark-mode .btn-info:hover,
+.dark-mode .btn-primary:hover {
+    background-color: var(--darken-accent);
+}
+
+/* Input and search field styles in dark mode */
+.dark-mode .search-notes,
+.dark-mode .search-notes input,
+.dark-mode .search-notes button,
+.dark-mode #searchOptions,
+.dark-mode .controls input[type="range"] {
+    background-color: var(--dark-surface);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+.dark-mode #searchButton:hover {
+    background-color: var(--darken-accent);
+}
+
+/* Note entry and analytics chart styles in dark mode */
+.dark-mode .note-entry,
+.dark-mode #analyticsChart,
+.dark-mode .transcription-panel,
+.dark-mode .analytics-section {
+    background-color: var(--dark-surface);
+    color: var(--dark-text);
+}
+
+/* Styles for active and hover states in dark mode */
+.dark-mode .sidebar ul li a.active,
+.dark-mode .sidebar ul li a,
+.dark-mode .sidebar ul li,
+.dark-mode .sidebar,
+.dark-mode .sidebar ul li a:hover,
+.dark-mode button:hover,
+.dark-mode .btn-info:hover,
+.dark-mode .btn-primary:hover {
+    background-color: var(--darken-accent);
+}
+
+/* Additional dark mode styles for other elements */
+.dark-mode .app-header,
+.dark-mode .auth-buttons button:hover,
+.dark-mode .grey-area {
+    background-color: var(--dark-surface);
+    border-top: 1px solid var(--dark-border);
+    border-bottom: 1px solid var(--dark-border);
+}
+
+/* Enhancements for charts and graphs */
+.dark-mode #analyticsChart,
+#analyticsChart {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+    height: 300px !important;
+    width: 100% !important;
+}
+
+/* Dark mode styles for sidebar */
+.dark-mode .sidebar {
+    background: linear-gradient(180deg, #121212 0%, #121212 100%); /* Adjust background gradient for dark mode */
+    color: #ffffff; /* Adjust text color for dark mode */
+    box-shadow: 2px 0 5px rgba(255, 255, 255, 0.2); /* Subtle shadow for depth */
+}
+
+.dark-mode .sidebar ul li a {
+    color: #ffffff; /* Adjust text color for dark mode */
+    border-bottom-color: #666666; /* Adjust border color for dark mode */
+}
+
+.dark-mode .sidebar ul li a.active {
+    background-color: #333333; /* Adjust active background color for dark mode */
+}
+
+/* Hover effect for sidebar items in dark mode */
+.dark-mode .sidebar ul li a:hover {
+    background-color: #555555; /* Adjust hover background color for dark mode */
+}
+
+/* Dark mode styles for links */
+.dark-mode a {
+    color: var(--dark-text); /* Adjust text color for dark mode */
+    text-decoration: none; /* Remove default underline */
+}
+
+.dark-mode a:hover {
+    color: var(--dark-accent); /* Adjust hover text color for dark mode */
+}
+
+/* Dark mode styles */
+.dark-mode .card {
+    background-color: var(--dark-surface); /* Adjust background color as needed */
+    color: var(--dark-text); /* Adjust text color as needed */
+    border-color: var(--dark-border); /* Adjust border color as needed */
+}
+
+.dark-mode .card button {
+    color: var(--dark-text); /* Adjust button text color as needed */
+    background-color: var(--dark-accent); /* Adjust button background color as needed */
+    border-color: var(--dark-accent); /* Adjust button border color as needed */
+}
+
+.dark-mode .card button:hover {
+    background-color: var(--darken-accent); /* Adjust hover background color as needed */
+}
+
+.dark-mode .audio-player {
+    background-color: var(--dark-surface); /* Adjust background color as needed */
+    color: var(--dark-text); /* Adjust text color as needed */
+}
+
+.dark-mode .audio-player button {
+    color: var(--dark-text); /* Adjust button text color as needed */
+    background-color: var(--dark-accent); /* Adjust button background color as needed */
+    border-color: var(--dark-accent); /* Adjust button border color as needed */
+}
+
+.dark-mode .audio-player button:hover {
+    background-color: var(--darken-accent); /* Adjust hover background color as needed */
+}
+
+.dark-mode .controls input[type="range"] {
+    background-color: var(--dark-surface); /* Adjust range input background color as needed */
+    color: var(--dark-text); /* Adjust range input text color as needed */
+}
+
+.dark-mode .fs-6 {
+    color: var(--dark-text); /* Adjust text color as needed */
+}

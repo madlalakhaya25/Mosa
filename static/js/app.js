@@ -5,6 +5,10 @@ var gumStream; 						//stream from getUserMedia()
 var rec; 							//Recorder.js object
 var input; 							//MediaStreamAudioSourceNode we'll be recording
 
+var url = '/search-meeting'; 
+var url = '/search-by-date'; // Example URL for searching by date
+var url = '/search-by-title'; // Example URL for searching by title
+
 // shim for AudioContext when it's not avb. 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioContext //audio context to help us record
@@ -65,7 +69,7 @@ function startRecording() {
 		audioContext = new AudioContext();
 
 		//update the format 
-		document.getElementById("formats").innerHTML = "Format: 1 channel pcm @ " + audioContext.sampleRate / 1000 + "kHz"
+		document.getElementById("formats")
 
 		/*  assign to gumStream for later use  */
 		gumStream = stream;

@@ -59,9 +59,13 @@
                             <h3 class="h4 font-weight-bold text-theme">Create an account</h3>
                         </div>
                         <h6 class="h5 mb-4">Welcome to TranscriptForge!</h6>
-                        <p class="text-muted mb-4">Enter your email address and password to register an account.</p>
+                        <p class="text-muted mb-4">Enter your username, email address and password to register an account.</p>
                         <form method="POST" id="registrationForm" aria-label="User Registration Form" autocomplete="off">
                             <div class="form-group">
+                                <div class="form-group">
+                                    <label for="fullname">Username</label>
+                                    <input type="text" class="form-control" id="username" name="fullname" aria-label="Enter your username" required>
+                                </div>
                                 <label for="username">Email Address</label>
                                 <input type="email" class="form-control" id="username" name="username" aria-label="Enter your email address" required>
                             </div>

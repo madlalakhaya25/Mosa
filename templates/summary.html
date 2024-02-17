@@ -12,7 +12,7 @@
 
         <form action="/get-meeting-transcript" method="post">
           <input type="hidden" id="meeting_name" name="meeting_name" value="{{ meeting.Meeting_Name }}">
-          <button type="submit" class="btn btn-info text-light col-auto">View full meeting transcript</button>
+          <button type="submit" class="btn btn-info text-light col-auto">View Transcript</button>
           
         </form>
         <div class="audio-player">
@@ -32,6 +32,9 @@
               <span id="currentTime{{ loop.index }}">0:00</span> / <span id="duration{{ loop.index }}">0:00</span>
           </div>
           <p class="fs-6">Listen to audio of the Meeting</p>
+             <!-- JavaScript to generate and save PDF -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
           <script>
             const audio{{ loop.index }} = document.getElementById('audio{{ loop.index }}');
             const playPauseBtn{{ loop.index }} = document.getElementById('playPauseBtn{{ loop.index }}');

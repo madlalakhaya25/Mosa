@@ -1,5 +1,6 @@
+from io import BytesIO
 import uuid
-from flask import Flask, jsonify, render_template, request, make_response,redirect, url_for, session, abort
+from flask import Flask, jsonify, render_template, request, make_response,redirect, send_file, url_for, session, abort
 import requests
 from transcript import uploadAudioRoute
 import os
@@ -22,6 +23,7 @@ import jwt  # Make sure to import jwt library
 import logging
 import datetime
 from dotenv import load_dotenv
+import pdfkit
 
 app = Flask(__name__)
 # Load environment variables from .env file
@@ -35,6 +37,85 @@ logger = logging.getLogger(__name__)
 # Replace 'your_secret_key_here' with your actual secret key
 app.secret_key = os.getenv('SECRET_KEY')
 
+
+
+@app.route('/search-by-date', methods=['POST'])
+def search_by_date():
+    # Your server-side code for searching by date
+    pass
+
+@app.route('/search-by-title', methods=['POST'])
+def search_by_title():
+    # Your server-side code for searching by title
+    pass
+
+@app.route('/search-meeting', methods=['POST'])
+def search_meeting():
+    if 'username' not in session:
+        abort(401)  # Unauthorized
+
+    try:
+        currently_logged_in_user = session["username"]
+        search_date = request.json.get('meeting_date')
+        search_title = request.json.get('meeting_title')
+
+        # Query the database based on the search criteria
+        MONGODB_URI = os.getenv('MONGO_URI')
+        myclient = pymongo.MongoClient(MONGODB_URI)
+        mydb = myclient["TranscriptForge"]
+        mycol = mydb["Meeting_details"]
+
+        search_results = []
+        for x in mycol.find({"UserEmail": currently_logged_in_user, "Date": search_date, "Meeting_Name": search_title}):
+            summary = x['Summary']
+            meeting_name = x['Meeting_Name']
+            date = x['Date']
+            recording_url = x['RecordingURL']
+            recording_name = os.path.basename(recording_url)
+            search_results.append({
+                "summary": summary,
+                "Meeting_Name": meeting_name,
+                "Date": date,
+                "recording_name": recording_name
+            })
+
+        return jsonify(search_results)
+
+    except Exception as e:
+        print(f"Error searching: {e}")
+        return jsonify({'error': 'An error occurred during search'}), 500
+
+
+@app.route('/generate-pdf', methods=['POST'])
+def generate_pdf():
+    # Get transcript data from the request
+    transcript_data = request.json['transcript']
+
+    # Create HTML content for the PDF
+    html_content = '<html><body>'
+    for entry in transcript_data:
+        html_content += f'<p><strong>{entry["speaker"]}:</strong> [{entry["start_time"]}] {entry["transcription"]}</p>'
+    html_content += '</body></html>'
+
+    # Configure PDF options
+    pdf_options = {
+        'page-size': 'A4',
+        'encoding': 'UTF-8',
+        'no-outline': None
+    }
+
+    # Generate PDF from HTML content
+    pdf = pdfkit.from_string(html_content, False, options=pdf_options)
+
+    # Create BytesIO buffer to hold PDF content
+    pdf_buffer = BytesIO(pdf)
+
+    # Seek to the beginning of the buffer
+    pdf_buffer.seek(0)
+
+    # Send the PDF file as a response
+    response = send_file(pdf_buffer, attachment_filename='meeting_transcript.pdf', as_attachment=True)
+    return response
 
 def create_new_user_in_database(user_id):
     # Create a new user object
