@@ -2,6 +2,7 @@ from io import BytesIO
 import uuid
 from flask import Flask, jsonify, render_template, request, make_response,redirect, send_file, url_for, session, abort
 import requests
+from distutils.command import build
 from transcript import uploadAudioRoute
 import os
 import pymongo
@@ -37,6 +38,20 @@ logger = logging.getLogger(__name__)
 # Replace 'your_secret_key_here' with your actual secret key
 app.secret_key = os.getenv('SECRET_KEY')
 
+@app.route('/calendar')
+def calendar():
+    if 'access_token' not in session:
+        return redirect(url_for('login'))
+    
+    # Create a service object for interacting with the Google Calendar API
+    service = build('calendar', 'v3', credentials=session['access_token'])
+    
+    # Example: List the user's next 10 events
+    events_result = service.events().list(calendarId='primary', maxResults=10, singleEvents=True, orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    
+    # Render the events in a template
+    return render_template('calendar.html', events=events)
 
 
 @app.route('/search-by-date', methods=['POST'])

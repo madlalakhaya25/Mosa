@@ -242,6 +242,12 @@ button:hover {
   .auth-buttons button {
     font-size: 14px; /* Adjust the font size for small screens */
   }
+  #recordingsList a {
+    margin-left: 5px;
+    margin-bottom: -1px;
+  }
+
+  
 }
 
 /* Enhancements for charts and graphs */
@@ -710,6 +716,35 @@ label {
 
 /* UPDATE */
 
+/* Default styles for the button */
+.filename-span {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #007bff;
+  text-decoration: none; /* Remove underline */
+  background-color: #f8f9fa; /* Button background color */
+  border: 1px solid #007bff; /* Button border */
+  border-radius: 4px; /* Button border radius */
+  padding: 8px 12px; /* Button padding */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  display: inline-block; /* Ensure button displays inline */
+}
+
+/* Hover effect for the button */
+.filename-span:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Mobile styles */
+@media only screen and (max-width: 767px) {
+  .filename-span {
+      font-size: 14px; /* Decrease font size for smaller screens */
+      padding: 6px 10px; /* Decrease padding for smaller screens */
+  }
+}
+
+
         @keyframes blink {
           0% { opacity: 1; }
           50% { opacity: 0.5; }
@@ -773,6 +808,17 @@ label {
           border: 1px solid #dedede;
           border-radius: 4px;
         }
+
+        #recordingsList a {
+          margin-left: 13px;
+          margin-bottom: -1px;
+        }
+
+        li {
+          display: flex;
+          justify-content: space-between;
+          align-items: center; /* Optional: Center-align items vertically */
+      }
         
         /* Hide save and upload links by default */
         #recordingsList .save-link, #recordingsList .upload-link {
