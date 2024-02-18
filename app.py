@@ -71,28 +71,27 @@ def search_meeting():
 
     try:
         currently_logged_in_user = session["username"]
-        search_date = request.json.get('meeting_date')
-        search_title = request.json.get('meeting_title')
+        search_date = request.json.get('meeting_date', '')  # Default to empty string if not provided
+        search_title = request.json.get('meeting_title', '')  # Default to empty string if not provided
 
-        # Query the database based on the search criteria
         MONGODB_URI = os.getenv('MONGO_URI')
         myclient = pymongo.MongoClient(MONGODB_URI)
         mydb = myclient["TranscriptForge"]
         mycol = mydb["Meeting_details"]
 
-        search_results = []
-        for x in mycol.find({"UserEmail": currently_logged_in_user, "Date": search_date, "Meeting_Name": search_title}):
-            summary = x['Summary']
-            meeting_name = x['Meeting_Name']
-            date = x['Date']
-            recording_url = x['RecordingURL']
-            recording_name = os.path.basename(recording_url)
-            search_results.append({
-                "summary": summary,
-                "Meeting_Name": meeting_name,
-                "Date": date,
-                "recording_name": recording_name
-            })
+        query = {"UserEmail": currently_logged_in_user}
+        if search_date:
+            query["Date"] = {"$regex": search_date, "$options": "i"}
+        if search_title:
+            query["Meeting_Name"] = {"$regex": search_title, "$options": "i"}
+
+        search_results = list(mycol.find(query))
+
+        # Convert the search results to a list of dicts, excluding the '_id' field
+        search_results = [
+            {k: v for k, v in doc.items() if k != '_id'}
+            for doc in search_results
+        ]
 
         return jsonify(search_results)
 

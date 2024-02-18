@@ -909,3 +909,48 @@ label {
       margin-bottom: 20px; /* Add some bottom margin for spacing */
     }
     
+    /* Button basic styles */
+.btn {
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin: 0.5em;
+  border: none;
+  border-radius: 0.3em;
+  background-color: #17a2b8; /* Bootstrap info color */
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Button block styles for full width */
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+/* Hover and focus styles */
+.btn:hover, .btn:focus {
+  background-color: #138496; /* A darker shade for hover state */
+}
+
+/* Active styles */
+.btn:active {
+  background-color: #117a8b; /* Even darker shade for active state */
+}
+
+/* Disabled styles */
+.btn:disabled {
+  background-color: #d1ecf1; /* Lighter shade for disabled state */
+  color: #7b8a8b; /* Gray text for disabled state */
+  cursor: not-allowed;
+}
+
+
+button {
+
+  border-radius: 25px !important;
+
+}

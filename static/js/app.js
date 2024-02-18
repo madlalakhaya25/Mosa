@@ -289,27 +289,8 @@ li.appendChild(au);
 var filenameSpan = document.createElement('span');
 filenameSpan.textContent = filename + ".wav";
 
-// Apply styles to the span element to resemble a button
-filenameSpan.style.fontFamily = "Arial, sans-serif";
-filenameSpan.style.fontSize = "16px";
-filenameSpan.style.color = "#007bff";
-filenameSpan.style.textDecoration = "none"; // Remove underline
-filenameSpan.style.backgroundColor = "#f8f9fa"; // Button background color
-filenameSpan.style.border = "1px solid #007bff"; // Button border
-filenameSpan.style.borderRadius = "4px"; // Button border radius
-filenameSpan.style.padding = "8px 12px"; // Button padding
-filenameSpan.style.cursor = "pointer"; // Change cursor to pointer on hover
-filenameSpan.style.display = "inline-block"; // Ensure button displays inline
 
-// Add hover effect
-filenameSpan.addEventListener('mouseenter', function() {
-    filenameSpan.style.backgroundColor = "#007bff";
-    filenameSpan.style.color = "#fff";
-});
-filenameSpan.addEventListener('mouseleave', function() {
-    filenameSpan.style.backgroundColor = "#f8f9fa";
-    filenameSpan.style.color = "#007bff";
-});
+filenameSpan.style.display = "none"; 
 
 // Append the span element to the list item
 li.appendChild(filenameSpan);

@@ -30,12 +30,12 @@
 
 /* Define dark mode colors */
 :root {
-    --dark-background: #121212;
-    --dark-surface: #1e1e1e;
+    --dark-background: #333333;
+    --dark-surface: #333333;
     --dark-text: #ffffff;
     --dark-border: #333333;
-    --dark-accent: #4ecca3; /* Customized accent color for dark mode */
-    --darken-accent: #3aa283; /* A darker shade for active elements */
+    --dark-accent: #333333; /* Customized accent color for dark mode */
+    --darken-accent: #333333;; /* A darker shade for active elements */
 }
 
 /* Dark mode toggle switch styles */
@@ -108,14 +108,25 @@ nav .sidebar {
 
 /* Input and search field styles in dark mode */
 .dark-mode .search-notes,
-.dark-mode .search-notes input,
+
 .dark-mode .search-notes button,
 .dark-mode #searchOptions,
-.dark-mode .controls input[type="range"] {
+
+
+.dark-mode .search-input input[type="search"] {
+    border: 2px solid white; /* White border */
+    color: white !important; /* White text color */
     background-color: var(--dark-surface);
-    color: var(--dark-text);
-    border-color: var(--dark-border);
+    
 }
+
+/* Style the button */
+#searchButton {
+    color: white; /* White text color */
+    border: 2px solid white; /* White border */
+    background-color: transparent; /* Transparent background */
+}
+
 
 .dark-mode #searchButton:hover {
     background-color: var(--darken-accent);
@@ -162,7 +173,7 @@ nav .sidebar {
 
 /* Dark mode styles for sidebar */
 .dark-mode .sidebar {
-    background: linear-gradient(180deg, #121212 0%, #121212 100%); /* Adjust background gradient for dark mode */
+    background: linear-gradient(180deg, #333333 0%, #333333 100%); /* Adjust background gradient for dark mode */
     color: #ffffff; /* Adjust text color for dark mode */
     box-shadow: 2px 0 5px rgba(255, 255, 255, 0.2); /* Subtle shadow for depth */
 }
@@ -195,7 +206,10 @@ nav .sidebar {
 .dark-mode .card {
     background-color: var(--dark-surface); /* Adjust background color as needed */
     color: var(--dark-text); /* Adjust text color as needed */
-    border-color: var(--dark-border); /* Adjust border color as needed */
+    border: 2px solid var(--dark-border); /* Add border with color */
+    padding: 10px; /* Add padding to provide space between content and border */
+    border-radius: 8px; /* Add border radius for rounded corners */
+    border-color: white;
 }
 
 .dark-mode .card button {
@@ -231,3 +245,20 @@ nav .sidebar {
 .dark-mode .fs-6 {
     color: var(--dark-text); /* Adjust text color as needed */
 }
+
+.dark-mode button {
+    padding: 10px 20px;
+    margin-left: 8px;
+    background: linear-gradient(180deg, #007acc 0%, #007acc 100%); 
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  /* Hover function for buttons */
+  .dark-mode button:hover {
+    background: linear-gradient(180deg, #77858f 0%, #808b92 100%); /* Change the background color on hover */
+    color: white; /* Change text color to white on hover */
+  }
