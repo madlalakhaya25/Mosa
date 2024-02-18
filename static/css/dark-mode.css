@@ -113,12 +113,7 @@ nav .sidebar {
 .dark-mode #searchOptions,
 
 
-.dark-mode .search-input input[type="search"] {
-    border: 2px solid white; /* White border */
-    color: white !important; /* White text color */
-    background-color: var(--dark-surface);
-    
-}
+
 
 /* Style the button */
 #searchButton {
@@ -237,10 +232,14 @@ nav .sidebar {
     background-color: var(--darken-accent); /* Adjust hover background color as needed */
 }
 
-.dark-mode .controls input[type="range"] {
-    background-color: var(--dark-surface); /* Adjust range input background color as needed */
-    color: var(--dark-text); /* Adjust range input text color as needed */
+
+/* Targeting the element with id 'searchInput' specifically within dark mode */
+.dark-mode #searchInput {
+    background-color: var(--dark-surface); 
+    color: white !;
+  
 }
+
 
 .dark-mode .fs-6 {
     color: var(--dark-text); /* Adjust text color as needed */
@@ -262,3 +261,9 @@ nav .sidebar {
     background: linear-gradient(180deg, #77858f 0%, #808b92 100%); /* Change the background color on hover */
     color: white; /* Change text color to white on hover */
   }
+
+  .dark-mode .form-control[type="search"],
+.dark-mode .form-control[type="search"]::placeholder {
+    color: white !important;
+    background-color: var(--dark-surface) !important;
+}
