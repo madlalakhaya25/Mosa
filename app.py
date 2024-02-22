@@ -1,6 +1,8 @@
+from io import BytesIO
 import uuid
-from flask import Flask, jsonify, render_template, request, make_response,redirect, url_for, session, abort
+from flask import Flask, jsonify, render_template, request, make_response,redirect, send_file, url_for, session, abort
 import requests
+from distutils.command import build
 from transcript import uploadAudioRoute
 import os
 import pymongo
@@ -22,6 +24,7 @@ import jwt  # Make sure to import jwt library
 import logging
 import datetime
 from dotenv import load_dotenv
+import pdfkit
 
 app = Flask(__name__)
 # Load environment variables from .env file
@@ -35,6 +38,98 @@ logger = logging.getLogger(__name__)
 # Replace 'your_secret_key_here' with your actual secret key
 app.secret_key = os.getenv('SECRET_KEY')
 
+@app.route('/calendar')
+def calendar():
+    if 'access_token' not in session:
+        return redirect(url_for('login'))
+    
+    # Create a service object for interacting with the Google Calendar API
+    service = build('calendar', 'v3', credentials=session['access_token'])
+    
+    # Example: List the user's next 10 events
+    events_result = service.events().list(calendarId='primary', maxResults=10, singleEvents=True, orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    
+    # Render the events in a template
+    return render_template('calendar.html', events=events)
+
+
+@app.route('/search-by-date', methods=['POST'])
+def search_by_date():
+    # Your server-side code for searching by date
+    pass
+
+@app.route('/search-by-title', methods=['POST'])
+def search_by_title():
+    # Your server-side code for searching by title
+    pass
+
+@app.route('/search-meeting', methods=['POST'])
+def search_meeting():
+    if 'username' not in session:
+        abort(401)  # Unauthorized
+
+    try:
+        currently_logged_in_user = session["username"]
+        search_date = request.json.get('meeting_date', '')  # Default to empty string if not provided
+        search_title = request.json.get('meeting_title', '')  # Default to empty string if not provided
+
+        MONGODB_URI = os.getenv('MONGO_URI')
+        myclient = pymongo.MongoClient(MONGODB_URI)
+        mydb = myclient["TranscriptForge"]
+        mycol = mydb["Meeting_details"]
+
+        query = {"UserEmail": currently_logged_in_user}
+        if search_date:
+            query["Date"] = {"$regex": search_date, "$options": "i"}
+        if search_title:
+            query["Meeting_Name"] = {"$regex": search_title, "$options": "i"}
+
+        search_results = list(mycol.find(query))
+
+        # Convert the search results to a list of dicts, excluding the '_id' field
+        search_results = [
+            {k: v for k, v in doc.items() if k != '_id'}
+            for doc in search_results
+        ]
+
+        return jsonify(search_results)
+
+    except Exception as e:
+        print(f"Error searching: {e}")
+        return jsonify({'error': 'An error occurred during search'}), 500
+
+
+@app.route('/generate-pdf', methods=['POST'])
+def generate_pdf():
+    # Get transcript data from the request
+    transcript_data = request.json['transcript']
+
+    # Create HTML content for the PDF
+    html_content = '<html><body>'
+    for entry in transcript_data:
+        html_content += f'<p><strong>{entry["speaker"]}:</strong> [{entry["start_time"]}] {entry["transcription"]}</p>'
+    html_content += '</body></html>'
+
+    # Configure PDF options
+    pdf_options = {
+        'page-size': 'A4',
+        'encoding': 'UTF-8',
+        'no-outline': None
+    }
+
+    # Generate PDF from HTML content
+    pdf = pdfkit.from_string(html_content, False, options=pdf_options)
+
+    # Create BytesIO buffer to hold PDF content
+    pdf_buffer = BytesIO(pdf)
+
+    # Seek to the beginning of the buffer
+    pdf_buffer.seek(0)
+
+    # Send the PDF file as a response
+    response = send_file(pdf_buffer, attachment_filename='meeting_transcript.pdf', as_attachment=True)
+    return response
 
 def create_new_user_in_database(user_id):
     # Create a new user object

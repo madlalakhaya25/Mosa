@@ -5,6 +5,10 @@ var gumStream; 						//stream from getUserMedia()
 var rec; 							//Recorder.js object
 var input; 							//MediaStreamAudioSourceNode we'll be recording
 
+var url = '/search-meeting'; 
+var url = '/search-by-date'; // Example URL for searching by date
+var url = '/search-by-title'; // Example URL for searching by title
+
 // shim for AudioContext when it's not avb. 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioContext //audio context to help us record
@@ -65,7 +69,7 @@ function startRecording() {
 		audioContext = new AudioContext();
 
 		//update the format 
-		document.getElementById("formats").innerHTML = "Format: 1 channel pcm @ " + audioContext.sampleRate / 1000 + "kHz"
+		document.getElementById("formats")
 
 		/*  assign to gumStream for later use  */
 		gumStream = stream;
@@ -75,7 +79,7 @@ function startRecording() {
 
 		/* 
 			Create the Recorder object and configure to record mono sound (1 channel)
-			Recording 2 channels  will double the file size
+
 		*/
 		rec = new Recorder(input, { numChannels: 1 })
 
@@ -231,55 +235,70 @@ function createDownloadLink(blob) {
     au.controls = true;
     au.src = url;
 
-    // Function to create button element with specified icon and tooltip
-    function createButton(iconClass, title) {
-        var button = document.createElement('button');
-        button.innerHTML = `<i class="${iconClass}"></i>`;
-        button.setAttribute('title', title);
-        button.classList.add('button'); // Add a class for styling
-        return button;
-    }
+// Function to create button element with specified icon and tooltip
+function createButton(iconClass, title) {
+    var button = document.createElement('button');
+    button.innerHTML = `<i class="${iconClass}"></i>`;
+    button.setAttribute('title', title);
+    button.classList.add('button'); // Add a class for styling
+    return button;
+}
 
-    // Play button
-    var playButton = createButton('fas fa-play', 'Play');
-    playButton.addEventListener('click', function () {
-        au.play();
-    });
-    li.appendChild(playButton);
+// Play button
+var playButton = createButton('fas fa-play', 'Play');
+playButton.addEventListener('click', function () {
+    au.play();
+});
+li.appendChild(playButton);
 
-    // Stop button
-    var stopButton = createButton('fas fa-stop', 'Stop');
-    stopButton.addEventListener('click', function () {
-        au.pause();
-        au.currentTime = 0;
-    });
-    li.appendChild(stopButton);
+// Stop button
+var stopButton = createButton('fas fa-stop', 'Stop');
+stopButton.addEventListener('click', function () {
+    au.pause();
+    au.currentTime = 0;
+});
+li.appendChild(stopButton);
 
-    // Save to disk link
-    var downloadButton = createButton('fas fa-download', 'Save to disk');
-    downloadButton.href = url;
-    downloadButton.download = filename + ".wav";
-    link.appendChild(downloadButton);
-    li.appendChild(link);
+// Save to disk link
+var downloadButton = createButton('fas fa-download', 'Save to disk');
+downloadButton.href = url;
+downloadButton.download = filename + ".wav";
+var link = document.createElement('a'); // Create 'a' element for the download link
+link.appendChild(downloadButton);
+li.appendChild(link);
 
-    // Upload button
-    var uploadButton = createButton('fas fa-upload', 'Upload');
-    uploadButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        uploadRecording(blob);
-    });
-    li.appendChild(uploadButton);
+// Upload button
+var uploadButton = createButton('fas fa-upload', 'Upload');
+uploadButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    uploadRecording(blob);
+});
+uploadButton.style.marginLeft = "10px"; // Add left margin
+uploadButton.style.display = "none"; // Hide the upload button initially
+li.appendChild(uploadButton);
 
-    // Add the new audio element to li
-    li.appendChild(au);
 
-    // Add the filename to the li
-    li.appendChild(document.createTextNode(filename + ".wav "));
+// Apply flexbox styles to the list item to evenly space the buttons
+li.style.display = 'flex';
+li.style.justifyContent = 'space-between';
 
-    // Add the li element to the ol
-    recordingsList.appendChild(li);
+// Add the new audio element to li
+li.appendChild(au);
 
-    // ............................................................
+// Create a span element to wrap the filename text
+var filenameSpan = document.createElement('span');
+filenameSpan.textContent = filename + ".wav";
+
+
+filenameSpan.style.display = "none"; 
+
+// Append the span element to the list item
+li.appendChild(filenameSpan);
+
+
+// Add the li element to the ol
+recordingsList.appendChild(li);
+
 }
 
     // ............................................................
