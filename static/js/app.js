@@ -282,7 +282,7 @@ li.appendChild(uploadButton);
 li.style.display = 'flex';
 li.style.justifyContent = 'space-between';
 
-// Add the new audio element to li
+// Add the new audio element to li`5
 li.appendChild(au);
 
 // Create a span element to wrap the filename text
@@ -296,9 +296,9 @@ filenameSpan.style.display = "none";
 li.appendChild(filenameSpan);
 
 
-// Add the li element to the ol
+// Add the li ele ment to the ol
 recordingsList.appendChild(li);
 
 }
 
-    // ............................................................
+

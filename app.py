@@ -38,6 +38,14 @@ logger = logging.getLogger(__name__)
 # Replace 'your_secret_key_here' with your actual secret key
 app.secret_key = os.getenv('SECRET_KEY')
 
+@app.route('/autocomplete', methods=['GET'])
+def autocomplete():
+    query = request.args.get('query', '')
+    results = mycol.find({"Meeting_Name": {"$regex": query, "$options": "i"}}).limit(5)
+    suggestions = [result['Meeting_Name'] for result in results]
+    return jsonify(suggestions)
+
+
 @app.route('/calendar')
 def calendar():
     if 'access_token' not in session:
@@ -63,35 +71,48 @@ def search_by_date():
 def search_by_title():
     # Your server-side code for searching by title
     pass
-
 @app.route('/search-meeting', methods=['POST'])
 def search_meeting():
     if 'username' not in session:
         abort(401)  # Unauthorized
 
     try:
-        currently_logged_in_user = session["username"]
-        search_date = request.json.get('meeting_date', '')  # Default to empty string if not provided
-        search_title = request.json.get('meeting_title', '')  # Default to empty string if not provided
+        currently_logged_in_user = session.get("username")
+        search_text = request.json.get('search_text', '')  # Get the search text from the request
+        start_date = request.json.get('start_date')
+        end_date = request.json.get('end_date')
+        category = request.json.get('category')
 
         MONGODB_URI = os.getenv('MONGO_URI')
         myclient = pymongo.MongoClient(MONGODB_URI)
         mydb = myclient["TranscriptForge"]
         mycol = mydb["Meeting_details"]
 
-        query = {"UserEmail": currently_logged_in_user}
-        if search_date:
-            query["Date"] = {"$regex": search_date, "$options": "i"}
-        if search_title:
-            query["Meeting_Name"] = {"$regex": search_title, "$options": "i"}
+        query = {
+            "UserEmail": currently_logged_in_user,
+            "$or": [
+                {"Date": {"$regex": search_text, "$options": "i"}},
+                {"Meeting_Name": {"$regex": search_text, "$options": "i"}},
+                {"Summary": {"$regex": search_text, "$options": "i"}}
+            ]
+        }
 
-        search_results = list(mycol.find(query))
+        # Date range filter
+        if start_date and end_date:
+            query["Date"] = {"$gte": datetime.strptime(start_date, '%Y-%m-%d'),
+                             "$lte": datetime.strptime(end_date, '%Y-%m-%d')}
+
+        # Category filter
+        if category:
+            query["Category"] = category
+
+        sort_option = request.json.get('sort', 'Date')  # Default sort by Date
+        sort_direction = pymongo.ASCENDING if request.json.get('direction', 'asc') == 'asc' else pymongo.DESCENDING
+        # Perform the query with sorting in a single step
+        search_results = list(mycol.find(query).sort(sort_option, sort_direction))
 
         # Convert the search results to a list of dicts, excluding the '_id' field
-        search_results = [
-            {k: v for k, v in doc.items() if k != '_id'}
-            for doc in search_results
-        ]
+        search_results = [{k: v for k, v in doc.items() if k != '_id'} for doc in search_results]
 
         return jsonify(search_results)
 
@@ -99,6 +120,7 @@ def search_meeting():
         print(f"Error searching: {e}")
         return jsonify({'error': 'An error occurred during search'}), 500
 
+    
 
 @app.route('/generate-pdf', methods=['POST'])
 def generate_pdf():

@@ -174,82 +174,6 @@ button:hover {
   color: white;
 }
 
-/* Define a breakpoint for smaller screens */
-@media (max-width: 768px) {
-  .dashboard {
-    flex-direction: column-reverse; /* Stack sidebar below main content */
-  }
-
-  .sidebar {
-    width: 100%; /* Make sidebar full width */
-  }
-
-  .sidebar ul li a {
-    padding: 10px; /* Reduce padding for smaller touch targets */
-  }
-
-  .header {
-    padding: 10px; /* Reduce header padding */
-  }
-
-  .user-info span {
-    margin-right: 5px; /* Reduce margin for smaller screens */
-  }
-
-  .note-actions button {
-    padding: 8px 12px; /* Adjust button padding for smaller screens */
-  }
-
-  .search-notes {
-    padding: 8px; /* Reduce padding for search input container */
-    margin-bottom: 10px; /* Reduce margin for search input container */
-  }
-
-  #searchNotes {
-    padding: 6px; /* Reduce padding for search input */
-    font-size: 14px; /* Adjust font size for search input */
-  }
-
-  #searchButton {
-    padding: 8px 16px; /* Adjust button padding for search button */
-    margin-left: 5px; /* Reduce margin for search button */
-  }
-
-  .search-options label {
-    font-size: 12px; /* Adjust font size for search options label */
-  }
-
-  #searchOptions {
-    padding: 6px; /* Reduce padding for search options select */
-    font-size: 12px; /* Adjust font size for search options select */
-  }
-
-  .app-header {
-    padding: 10px; /* Adjust the padding for small screens */
-    flex-direction: column; /* Stack elements vertically for small screens */
-  }
-
-  .logo img {
-    width: 40px; /* Reduce the logo size for small screens */
-    height: 40px;
-    margin-right: 10px;
-  }
-
-  .app-name {
-    font-size: 20px; /* Adjust the font size for small screens */
-  }
-
-  .auth-buttons button {
-    font-size: 14px; /* Adjust the font size for small screens */
-  }
-  #recordingsList a {
-    margin-left: 5px;
-    margin-bottom: -1px;
-  }
-
-  
-}
-
 /* Enhancements for charts and graphs */
 .dark-mode #analyticsChart,
 #analyticsChart {
@@ -554,15 +478,7 @@ button:hover {
 }
 
 /* For small screens, stack the sidebar below the main content */
-@media (max-width: 768px) {
-  .dashboard {
-    flex-direction: column-reverse; /* Stack sidebar below main content */
-  }
 
-  .sidebar {
-    width: 100%; /* Make sidebar full width */
-  }
-}
 
 /* Style the search input and button container */
 .search-input {
@@ -714,192 +630,8 @@ label {
             display: none; /* Hide the audio element */
         }
 
-/* UPDATE */
-
-/* Default styles for the button */
-.filename-span {
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  color: #007bff;
-  text-decoration: none; /* Remove underline */
-  background-color: #f8f9fa; /* Button background color */
-  border: 1px solid #007bff; /* Button border */
-  border-radius: 4px; /* Button border radius */
-  padding: 8px 12px; /* Button padding */
-  cursor: pointer; /* Change cursor to pointer on hover */
-  display: inline-block; /* Ensure button displays inline */
-}
-
-/* Hover effect for the button */
-.filename-span:hover {
-  background-color: #007bff;
-  color: #fff;
-}
-
-/* Mobile styles */
-@media only screen and (max-width: 767px) {
-  .filename-span {
-      font-size: 14px; /* Decrease font size for smaller screens */
-      padding: 6px 10px; /* Decrease padding for smaller screens */
-  }
-}
 
 
-        @keyframes blink {
-          0% { opacity: 1; }
-          50% { opacity: 0.5; }
-          100% { opacity: 1; }
-        }
-        
-        .recording-indicator {
-          animation: blink 1s infinite;
-        }
-        
-        /* Common styles for save and upload links */
-        .save-link, .upload-link {
-          color: #007bff;
-          cursor: pointer;
-          margin-right: 5px;
-          transition: color 0.3s ease;
-        }
-        
-        .save-link:hover, .upload-link:hover {
-          color: #0056b3;
-        }
-        
-        /* Styling for icons */
-        .save-link i, .upload-link i {
-          margin-right: 5px;
-        }
-        
-        /* Styling for links inside recordingsList */
-        #recordingsList a {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 32px;
-          height: 32px;
-          background-color: #f2f2f2;
-          color: #007bff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-decoration: none;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          transition: background-color 0.3s ease;
-        }
-        
-        #recordingsList a:hover {
-          background-color: #e2e2e2;
-          color: #0056b3;
-        }
-        
-        #recordingsList a i {
-          font-size: 16px;
-        }
-        
-        /* Styling for list items inside recordingsList */
-        #recordingsList li {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 10px;
-          margin-bottom: 8px;
-          background-color: #ffffff;
-          border: 1px solid #dedede;
-          border-radius: 4px;
-        }
-
-        #recordingsList a {
-          margin-left: 13px;
-          margin-bottom: -1px;
-        }
-
-        li {
-          display: flex;
-          justify-content: space-between;
-          align-items: center; /* Optional: Center-align items vertically */
-      }
-        
-        /* Hide save and upload links by default */
-        #recordingsList .save-link, #recordingsList .upload-link {
-          display: none;
-        }
-        
-        /* Show upload link when recording is ready */
-        .upload-ready .upload-link {
-          display: inline-block;
-        }
-        
-        /* Additional styles for the upload link when visible */
-        .upload-link {
-          color: #fff;
-          background-color: none;
-          border-color: #007bff;
-          padding: 0.375rem 0.75rem;
-          border-radius: 0.25rem;
-          transition: all 0.3s ease;
-        }
-        
-        .upload-link i {
-          margin-right: 5px;
-        }
-        
-        /* Tooltip styling for save and upload links */
-        .save-link[title]:hover:after, .upload-link[title]:hover:after {
-          content: attr(title);
-          position: absolute;
-          left: 100%;
-          top: 0;
-          white-space: nowrap;
-          z-index: 20px;
-          background-color: #000;
-          color: #fff;
-          padding: 3px 8px;
-          border-radius: 3px;
-          font-size: 0.75rem;
-        }
-
-        .upload-link {
-          display: none; /* Hide by default */
-          /* Add additional styles for when it is visible */
-          color: #fff;
-          background-color: #007bff;
-          border-color: #007bff;
-          padding: 0.375rem 0.75rem;
-          border-radius: 0.25rem;
-          transition: all 0.3s ease;
-        }
-        
-        .upload-link i {
-          margin-right: 5px; /* Space between icon and text if needed */
-        }
-
-        .three-d {
-          text-shadow: 2px 2px 2px rgba(0,0,0,0.4);
-          /* Add your preferred shadow color and size */
-          transform: perspective(500px) rotateY(15deg);
-          /* Adjust the perspective and rotation angle as needed */
-        }
-        
-        #uploadProgress {
-          width: 100%;
-          height: 20px;
-          background-color: #f0f0f0;
-      }
-
-      .progress-bar {
-          width: 0%;
-          height: 100%;
-          background-color: #4caf50;
-      }
-
-      #uploadCompleteMessage {
-        background-color: #4caf50;
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-    }
-    /* UPDATE */
 
     
     .select-message {
@@ -909,48 +641,12 @@ label {
       margin-bottom: 20px; /* Add some bottom margin for spacing */
     }
     
-    /* Button basic styles */
-.btn {
-  display: inline-block;
-  padding: 0.5em 1em;
-  margin: 0.5em;
-  border: none;
-  border-radius: 0.3em;
-  background-color: #17a2b8; /* Bootstrap info color */
-  color: white;
-  font-size: 1em;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
+    
+
+.highlight {
+  background-color: yellow;
 }
 
-/* Button block styles for full width */
-.btn-block {
-  display: block;
-  width: 100%;
-}
-
-/* Hover and focus styles */
-.btn:hover, .btn:focus {
-  background-color: #138496; /* A darker shade for hover state */
-}
-
-/* Active styles */
-.btn:active {
-  background-color: #117a8b; /* Even darker shade for active state */
-}
-
-/* Disabled styles */
-.btn:disabled {
-  background-color: #d1ecf1; /* Lighter shade for disabled state */
-  color: #7b8a8b; /* Gray text for disabled state */
-  cursor: not-allowed;
-}
-
-
-button {
-
-  border-radius: 25px !important;
-
+.notes-list {
+  margin-top: 20px; /* Adjust the margin to create space for the search bar */
 }
