@@ -9,9 +9,11 @@
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-mode.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/recording.css') }}">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
 
 </head>
 <body>
@@ -87,110 +89,42 @@
       </div>
     </section>
 
-   <section class="notes-list d-flex flex-wrap">
-    <div class="search-notes">
-      <div class="search-input">
-        <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button id="searchButton" type="button">Search</button>
+    <section class="notes-list d-flex flex-wrap">
+      <div class="search-notes">
+        <div class="search-input">
+          <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button id="searchButton" type="button">Search</button>
+        </div>
+      
+        <div class="search-options">
+          <label for="searchOptions">Filter by:</label>
+          <select id="sortOptions">
+            <option value="Date">Sort by Date</option>
+            <option value="Meeting_Name">Sort by Title</option>
+          </select>
+        </div>
       </div>
-    
-      <div class="search-options">
-        <label for="searchOptions">Filter by:</label>
-        <select id="searchOptions">
-          <option value="date">Date</option>
-          <option value="title">Title</option>
-        </select>
-      </div>
-    </div>
     </section>
+    
+    <!-- Search Results Container -->
+    <section id="search-results" class="mt-4 w-100"><!-- Search results will be injected here --></section>
+
 
     <section class="transcription-panel">
       <h2>Meeting Summaries</h2>
       <div id="result" hx-get="/retrieve-meeting-summaries" hx-trigger="load" hx-swap="outerHTML" hx-target="#result"></div>
     </section>
-
+  <!-- Insert the error message div here -->
+  <div id="error-message" style="display: none;"></div>
   </main>
 </div>
-<script>
-
-// Function to handle search button click
-document.getElementById('searchButton').addEventListener('click', function() {
-  // Get the search input value
-  var searchInput = document.getElementById('searchInput').value;
-  // Get the selected search option
-  var searchOption = document.getElementById('searchOptions').value;
-  
-  // Prepare the data object based on the selected search option
-  var data = searchOption === 'date' ? { meeting_date: searchInput } : { meeting_title: searchInput };
-  
-  // Send a request to the server to search
-  sendSearchRequest('/search-meeting', data);
-});
-
-// Function to send search request to the server
-function sendSearchRequest(url, data) {
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(results => {
-    // Update the UI with the search results
-    console.log('Search results:', results);
-    // Code to update the UI based on search results
-  })
-  .catch(error => {
-    console.error('Error searching:', error);
-    // Optionally update the UI to indicate an error occurred during the search
-  });
-}
-
-</script>
-
 
 <script>
-  function search() {
-    // Retrieve search input and selected option
-    var searchInput = document.getElementById('searchInput').value.toLowerCase();
-    var searchOption = document.getElementById('searchOptions').value;
 
-    // Get all notes and transcript entries
-    var notes = document.querySelectorAll('.note-text');
-    var transcriptEntries = document.querySelectorAll('.transcript-entry');
 
-    // Iterate over notes and transcript entries to find matches
-    notes.forEach(function(note) {
-      var noteText = note.innerText.toLowerCase();
-      if (searchOption === 'date' && noteText.includes(searchInput)) {
-        note.style.display = 'block'; // Show note if it matches search criteria
-      } else {
-        note.style.display = 'none'; // Hide note if it doesn't match search criteria
-      }
-    });
 
-    transcriptEntries.forEach(function(entry) {
-      var entryText = entry.innerText.toLowerCase();
-      if (entryText.includes(searchInput)) {
-        entry.style.display = 'block'; // Show transcript entry if it matches search criteria
-      } else {
-        entry.style.display = 'none'; // Hide transcript entry if it doesn't match search criteria
-      }
-    });
-  }
-
-  // Add event listener for search button click
-  document.getElementById('searchButton').addEventListener('click', search);
 </script>
-
-
+  
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -198,5 +132,6 @@ function sendSearchRequest(url, data) {
     <script src={{ url_for('static', filename='js/recorder.js')}}></script>
     <script src={{ url_for('static', filename='js/app.js')}}></script>
     <script src={{ url_for('static', filename='js/script.js')}}></script>
+    <script src={{ url_for('static', filename='js/search.js')}}></script>
 </body>
 </html>

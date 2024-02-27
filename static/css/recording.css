@@ -1,0 +1,176 @@
+
+
+/* Default styles for the button */
+.filename-span {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #007bff;
+    text-decoration: none; /* Remove underline */
+    background-color: #f8f9fa; /* Button background color */
+    border: 1px solid #007bff; /* Button border */
+    border-radius: 4px; /* Button border radius */
+    padding: 8px 12px; /* Button padding */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    display: inline-block; /* Ensure button displays inline */
+  }
+  
+  /* Hover effect for the button */
+  .filename-span:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+  
+  .recording-indicator {
+    animation: blink 1s infinite;
+  }
+  
+  /* Common styles for save and upload links */
+  .save-link, .upload-link {
+    color: #007bff;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: color 0.3s ease;
+  }
+  
+  .save-link:hover, .upload-link:hover {
+    color: #0056b3;
+  }
+  
+  /* Styling for icons */
+  .save-link i, .upload-link i {
+    margin-right: 5px;
+  }
+  
+  /* Styling for links inside recordingsList */
+  #recordingsList a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #f2f2f2;
+    color: #007bff;
+    border-radius: 50%;
+    margin-right: 8px;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  #recordingsList a:hover {
+    background-color: #e2e2e2;
+    color: #0056b3;
+  }
+  
+  #recordingsList a i {
+    font-size: 16px;
+  }
+  
+  /* Styling for list items inside recordingsList */
+  #recordingsList li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin-bottom: 8px;
+    background-color: #ffffff;
+    border: 1px solid #dedede;
+    border-radius: 4px;
+  }
+
+  #recordingsList a {
+    margin-left: 13px;
+    margin-bottom: -1px;
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Optional: Center-align items vertically */
+}
+  
+  /* Hide save and upload links by default */
+  #recordingsList .save-link, #recordingsList .upload-link {
+    display: none;
+  }
+  
+  /* Show upload link when recording is ready */
+  .upload-ready .upload-link {
+    display: inline-block;
+  }
+  
+  /* Additional styles for the upload link when visible */
+  .upload-link {
+    color: #fff;
+    background-color: none;
+    border-color: #007bff;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+  }
+  
+  .upload-link i {
+    margin-right: 5px;
+  }
+  
+  /* Tooltip styling for save and upload links */
+  .save-link[title]:hover:after, .upload-link[title]:hover:after {
+    content: attr(title);
+    position: absolute;
+    left: 100%;
+    top: 0;
+    white-space: nowrap;
+    z-index: 20px;
+    background-color: #000;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+  }
+
+  .upload-link {
+    display: none; /* Hide by default */
+    /* Add additional styles for when it is visible */
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+  }
+  
+  .upload-link i {
+    margin-right: 5px; /* Space between icon and text if needed */
+  }
+
+  .three-d {
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+    /* Add your preferred shadow color and size */
+    transform: perspective(500px) rotateY(15deg);
+    /* Adjust the perspective and rotation angle as needed */
+  }
+  
+  #uploadProgress {
+    width: 100%;
+    height: 20px;
+    background-color: #f0f0f0;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: #4caf50;
+}
+
+#uploadCompleteMessage {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}

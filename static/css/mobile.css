@@ -1,0 +1,93 @@
+
+/* Define a breakpoint for smaller screens */
+@media (max-width: 768px) {
+    .dashboard {
+      flex-direction: column-reverse; /* Stack sidebar below main content */
+    }
+  
+    .sidebar {
+      width: 100%; /* Make sidebar full width */
+    }
+  
+    .sidebar ul li a {
+      padding: 10px; /* Reduce padding for smaller touch targets */
+    }
+  
+    .header {
+      padding: 10px; /* Reduce header padding */
+    }
+  
+    .user-info span {
+      margin-right: 5px; /* Reduce margin for smaller screens */
+    }
+  
+    .note-actions button {
+      padding: 8px 12px; /* Adjust button padding for smaller screens */
+    }
+  
+    .search-notes {
+      padding: 8px; /* Reduce padding for search input container */
+      margin-bottom: 10px; /* Reduce margin for search input container */
+    }
+  
+    #searchNotes {
+      padding: 6px; /* Reduce padding for search input */
+      font-size: 14px; /* Adjust font size for search input */
+    }
+  
+    #searchButton {
+      padding: 8px 16px; /* Adjust button padding for search button */
+      margin-left: 5px; /* Reduce margin for search button */
+    }
+  
+    .search-options label {
+      font-size: 12px; /* Adjust font size for search options label */
+    }
+  
+    #searchOptions {
+      padding: 6px; /* Reduce padding for search options select */
+      font-size: 12px; /* Adjust font size for search options select */
+    }
+  
+    .app-header {
+      padding: 10px; /* Adjust the padding for small screens */
+      flex-direction: column; /* Stack elements vertically for small screens */
+    }
+  
+    .logo img {
+      width: 40px; /* Reduce the logo size for small screens */
+      height: 40px;
+      margin-right: 10px;
+    }
+  
+    .app-name {
+      font-size: 20px; /* Adjust the font size for small screens */
+    }
+  
+    .auth-buttons button {
+      font-size: 14px; /* Adjust the font size for small screens */
+    }
+    #recordingsList a {
+      margin-left: 5px;
+      margin-bottom: -1px;
+    }
+  
+    
+  }
+  @media (max-width: 768px) {
+    .dashboard {
+      flex-direction: column-reverse; /* Stack sidebar below main content */
+    }
+  
+    .sidebar {
+      width: 100%; /* Make sidebar full width */
+    }
+  }  
+
+  /* Mobile styles */
+@media only screen and (max-width: 767px) {
+    .filename-span {
+        font-size: 14px; /* Decrease font size for smaller screens */
+        padding: 6px 10px; /* Decrease padding for smaller screens */
+    }
+  }
