@@ -18,7 +18,6 @@ Features
     Actionable Insights: Easily identify and track action items and decisions.
     User-Friendly Interface: Navigate effortlessly through a sleek and intuitive dashboard.
 
-
 <p align="center">
    <img width="718px" src="static/css/vs.png" />
 </p>
