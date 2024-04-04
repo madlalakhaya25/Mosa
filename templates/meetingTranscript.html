@@ -61,7 +61,48 @@
             top: 5px;
             right: 10px;
         }
+
+        /* Button basic styles */
+.btn {
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin: 0.5em;
+  border: none;
+  border-radius: 0.3em;
+  background-color: #17a2b8; /* Bootstrap info color */
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Button block styles for full width */
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+/* Hover and focus styles */
+.btn:hover, .btn:focus {
+  background-color: #138496; /* A darker shade for hover state */
+}
+
+/* Active styles */
+.btn:active {
+  background-color: #117a8b; /* Even darker shade for active state */
+}
+
+/* Disabled styles */
+.btn:disabled {
+  background-color: #d1ecf1; /* Lighter shade for disabled state */
+  color: #7b8a8b; /* Gray text for disabled state */
+  cursor: not-allowed;
+}
+
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -105,19 +146,81 @@
             <!-- Download and Print Options -->
             <div class="download-print mt-4">
                 <h4>Download & Print</h4>
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-info">Download Transcript</button>
-                    <button type="button" class="btn btn-info">Print Transcript</button>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-info btn-block" onclick="savePDF()">Download PDF</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-info btn-block" onclick="saveText()">Download Text</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-info btn-block" onclick="printTranscript()">Print Transcript</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+            
 
     <!-- Bootstrap JS for functionality -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+
     <script>
+
+function saveText() {
+            // Retrieve transcript text
+            var transcriptText = "";
+            var transcriptEntries = document.querySelectorAll('.transcript-entry');
+            transcriptEntries.forEach(function (entry) {
+                transcriptText += entry.querySelector('.speaker').innerText + ' ' + entry.querySelector('.timestamp').innerText + ': ' + entry.querySelector('.transcript-text').innerText + '\n';
+            });
+            
+            // Create a Blob containing the text
+            var blob = new Blob([transcriptText], { type: 'text/plain' });
+
+            // Create a temporary link element
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'meeting_transcript.txt';
+
+            // Append the link to the body
+            document.body.appendChild(link);
+
+            // Trigger the download
+            link.click();
+
+            // Clean up
+            document.body.removeChild(link);
+        }
+
+
+function savePDF() {
+    // Define the document definition for pdfmake
+    var docDefinition = {
+        content: []
+    };
+
+    // Retrieve transcript entries
+    var transcriptEntries = document.querySelectorAll('.transcript-entry');
+    transcriptEntries.forEach(function (entry) {
+        var speaker = entry.querySelector('.speaker').innerText;
+        var timestamp = entry.querySelector('.timestamp').innerText;
+        var text = entry.querySelector('.transcript-text').innerText;
+        
+        // Add entry to the document definition
+        docDefinition.content.push({ text: `${speaker} ${timestamp}: ${text}`, margin: [0, 0, 0, 10] });
+    });
+
+    // Generate PDF from the document definition and trigger download
+    pdfMake.createPdf(docDefinition).download('meeting_transcript.pdf');
+}
+
+        function printTranscript() {
+    window.print();
+}
+
         $(document).ready(function() {
             // Toggle Timestamps Functionality
             $('.toggle-timestamps').on('click', function() {

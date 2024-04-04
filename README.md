@@ -18,7 +18,6 @@ Features
     Actionable Insights: Easily identify and track action items and decisions.
     User-Friendly Interface: Navigate effortlessly through a sleek and intuitive dashboard.
 
-
 <p align="center">
    <img width="718px" src="static/css/vs.png" />
 </p>
@@ -32,7 +31,7 @@ Your Meeting App keeps track of discussions and action items in real-time, provi
 - **Speaker Identification:** Automatically label speakers for clarity.
 - **Summarization:** Generate concise summaries for quick review and reference.
 - **Action Item Tracking:** Easily identify and track action items and decisions.
-- 
+  
 ## QUICK START
     -- Clone or Download: Obtain the repository by cloning it or downloading the ZIP file.
     -- Install Dependencies: Ensure all necessary dependencies are installed.

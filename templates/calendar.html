@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+</head>
+<body>
+    <h1>Calendar Events</h1>
+    <ul>
+        {% for event in events %}
+            <li>
+                <strong>{{ event.summary }}</strong>
+                <br>
+                <em>{{ event.start.dateTime|default(event.start.date) }}</em>
+                {% if event.location %}
+                    <br>
+                    Location: {{ event.location }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
