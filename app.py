@@ -2,7 +2,7 @@ from io import BytesIO
 import uuid
 from flask import Flask, jsonify, render_template, request, make_response,redirect, send_file, url_for, session, abort
 import requests
-from distutils.command import build
+# from distutils.command import build
 from transcript import uploadAudioRoute
 import os
 import pymongo
